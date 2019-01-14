@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+        <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/menu_top_stories_item"
+                android:title="@string/menu_top_stories_item" />
+            <item
+                android:id="@+id/menu_most_popular_item"
+                android:title="@string/menu_most_popular_item" />
+            <item
+                android:id="@+id/menu_business_item"
+                android:title="@string/menu_business_item" />
+        </group>
+
+        <item android:title="Configuration">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/activity_main_drawer_profile"
+                        android:title="@string/menu_profile_item" />
+                    <item
+                        android:id="@+id/activity_main_drawer_settings"
+                        android:title="@string/menu_settings_menu" />
+                </group>
+            </menu>
+        </item>
+</menu>
