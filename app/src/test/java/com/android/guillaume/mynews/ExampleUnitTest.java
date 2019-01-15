@@ -1,5 +1,7 @@
 package com.android.guillaume.mynews;
 
+import android.support.v7.widget.RecyclerView;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;

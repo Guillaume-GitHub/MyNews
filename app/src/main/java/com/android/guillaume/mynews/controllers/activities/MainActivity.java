@@ -1,18 +1,16 @@
-package com.android.guillaume.mynews;
+package com.android.guillaume.mynews.controllers.activities;
 
-import android.support.annotation.NonNull;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
+
+import com.android.guillaume.mynews.R;
+import com.android.guillaume.mynews.controllers.fragments.MainFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,7 +20,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
     @BindView(R.id.navigation_view) NavigationView navigationView;
     @BindView(R.id.toolbar) Toolbar toolbar;
-    private topStoriesFragment topStoriesFragment = new topStoriesFragment();
+
+    private MainFragment mainFragment = new MainFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,8 +32,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         this.configureToolBar();
         this.configureNavigationView();
-
-        configureAndShowFragment();
+        this.configureAndShowFragment();
 
     }
 
@@ -63,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // To close navigation drawer
     @Override
     public void onBackPressed() {
-        // 5 - Handle back click to close menu
+        //Handle back click to close menu
         if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
@@ -73,24 +72,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     //******** CONFIGURATION **********
-    private void configureToolBar(){
+    private void configureToolBar() {
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
     }
 
-    private void configureNavigationView(){
+    private void configureNavigationView() {
         this.navigationView.setNavigationItemSelectedListener(this);
     }
 
 
     //******** FRAGMENT *********
-    private void configureAndShowFragment(){
+    private void configureAndShowFragment() {
 
-        if (topStoriesFragment == null)
-            topStoriesFragment = new topStoriesFragment();
+        if (this.mainFragment == null)
+            this.mainFragment = new MainFragment();
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.frame_layout, topStoriesFragment)
+                .add(R.id.frame_layout, this.mainFragment)
                 .commit();
     }
 
