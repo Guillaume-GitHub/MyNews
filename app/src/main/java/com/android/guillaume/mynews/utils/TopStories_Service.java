@@ -1,4 +1,4 @@
-package com.android.guillaume.mynews;
+package com.android.guillaume.mynews.utils;
 
 import com.android.guillaume.mynews.models.TopStoriesResult;
 

@@ -1,6 +1,5 @@
 package com.android.guillaume.mynews.views;
 
-import android.app.Application;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.guillaume.mynews.R;
-import com.android.guillaume.mynews.controllers.activities.MainActivity;
 import com.android.guillaume.mynews.models.TopStoriesArticle;
 import com.bumptech.glide.RequestManager;
 
@@ -57,7 +55,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         this.descriptionTextView.setText(article.getTitle());
     }
 
-    private void updateDateTextView(TopStoriesArticle article){
+    public void updateDateTextView(TopStoriesArticle article){
         this.dateTextView.setText(article.getPublishedDate());
     }
 }
