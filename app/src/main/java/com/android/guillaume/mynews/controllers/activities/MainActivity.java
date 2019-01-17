@@ -2,6 +2,7 @@ package com.android.guillaume.mynews.controllers.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @BindView(R.id.navigation_view) NavigationView navigationView;
     @BindView(R.id.toolbar) Toolbar toolbar;
 
-    private MainFragment mainFragment = new MainFragment();
+    private Fragment mainFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,12 +86,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //******** FRAGMENT *********
     private void configureAndShowFragment() {
 
-        if (this.mainFragment == null)
-            this.mainFragment = new MainFragment();
+        this.mainFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
 
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.frame_layout, this.mainFragment)
-                .commit();
+        if (this.mainFragment == null) {
+            this.mainFragment = new MainFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.frame_layout, this.mainFragment)
+                    .commit();
+        }
     }
 
 }

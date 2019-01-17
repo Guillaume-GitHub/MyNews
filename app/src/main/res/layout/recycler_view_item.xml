@@ -12,14 +12,13 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_margin="10dp"
-        tools:background="@color/colorAccent" />
+        tools:background="@color/colorLightGrey" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:layout_marginEnd="10dp">
 
         <LinearLayout
@@ -33,9 +32,12 @@
                 android:id="@+id/recycler_view_category_item"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="2"
+                android:maxLines="1"
                 tools:text="Category"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:textColor="@color/colorBlack"/>
 
             <TextView
                 android:id="@+id/recycler_view_date_item"
@@ -43,7 +45,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="end"
-                tools:text="01/01/2019" />
+                tools:text="01/01/2019"
+                android:maxLength="10"/>
 
         </LinearLayout>
 
@@ -57,10 +60,17 @@
                android:id="@+id/recycler_view_description_item"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
-               android:textSize="18sp"
-               tools:text="This is a description of an article of New-York Time." />
+               android:textSize="20sp"
+                android:maxLines="2"
+               tools:text="This is a description of an article of New-York Times." />
 
         </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:paddingBottom="10dp"
+                android:background="@color/colorLightGrey"/>
 
     </LinearLayout>
 
