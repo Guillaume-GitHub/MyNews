@@ -1,6 +1,7 @@
 package com.android.guillaume.mynews.controllers.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.guillaume.mynews.controllers.activities.DetailActivity;
+import com.android.guillaume.mynews.controllers.activities.MainActivity;
 import com.android.guillaume.mynews.models.TopStoriesResult;
 import com.android.guillaume.mynews.R;
 import com.android.guillaume.mynews.models.TopStoriesArticle;
@@ -38,13 +41,13 @@ public class MainFragment extends Fragment implements Callback<TopStoriesResult>
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerViewAdapter adapter;
+    private List<TopStoriesArticle> articles;
 
-private List<TopStoriesArticle> articles;
+    public static String EXTRA_URL = "EXTRA_URL";
 
     public MainFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -89,11 +92,12 @@ private List<TopStoriesArticle> articles;
                 new RecyclerItemClickListener(getContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         TopStoriesArticle article = adapter.getArticle(position);
-                        Toast.makeText(getContext(), article.getUrl(), Toast.LENGTH_SHORT).show();
+                        startDetailActivity(article.getUrl());
                     }
 
                     @Override public void onLongItemClick(View view, int position) {
-                        // do whatever
+                        TopStoriesArticle article = adapter.getArticle(position);
+                        Toast.makeText(getContext(), article.getUrl(), Toast.LENGTH_SHORT).show();
                     }
                 })
         );
@@ -111,5 +115,11 @@ private List<TopStoriesArticle> articles;
     @Override
     public void onFailure(@NonNull Call<TopStoriesResult> call, @NonNull Throwable t) {
         Log.d("TAG", "onFailure: " + Log.getStackTraceString(t));
+    }
+
+    private void startDetailActivity(String url){
+        Intent intent = new Intent(getContext(),DetailActivity.class);
+        intent.putExtra(EXTRA_URL,url);
+        startActivity(intent);
     }
 }
