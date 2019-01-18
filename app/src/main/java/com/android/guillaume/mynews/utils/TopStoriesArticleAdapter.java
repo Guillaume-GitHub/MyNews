@@ -1,6 +1,5 @@
 package com.android.guillaume.mynews.utils;
 
-import com.android.guillaume.mynews.TopStories_Service;
 import com.android.guillaume.mynews.models.TopStoriesResult;
 
 import retrofit2.Call;

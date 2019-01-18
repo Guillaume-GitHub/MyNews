@@ -46,4 +46,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<MyViewHolder>{
         return articles.size();
     }
 
+    public TopStoriesArticle getArticle(int position){
+        return articles.get(position);
+    }
+
 }
