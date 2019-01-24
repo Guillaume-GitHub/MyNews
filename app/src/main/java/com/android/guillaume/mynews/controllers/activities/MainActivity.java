@@ -1,6 +1,7 @@
 package com.android.guillaume.mynews.controllers.activities;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -8,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.android.guillaume.mynews.R;
@@ -18,9 +20,13 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
-    @BindView(R.id.navigation_view) NavigationView navigationView;
-    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+    @BindView(R.id.navigation_view)
+    NavigationView navigationView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
 
     private Fragment mainFragment;
 
@@ -33,19 +39,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         this.configureToolBar();
         this.configureNavigationView();
-        this.configureAndShowFragment();
+        this.configureAndShowFragment("home");
 
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         // set item as selected to persist highlight
         menuItem.setChecked(true);
         // close drawer when item is tapped
         this.drawerLayout.closeDrawer(GravityCompat.START);
 
         // Add code here to update the UI based on the item selected
-        // For example, swap UI fragments here
+        Log.d("TAG", "onNavigationItemSelected: " + String.valueOf(menuItem.getItemId()));
+
+        switch (menuItem.getItemId()) {
+            case R.id.menu_home_item:
+                this.configureAndShowFragment("home");
+                break;
+
+            case R.id.menu_health_item:
+                this.configureAndShowFragment("health");
+                break;
+
+            case R.id.menu_sports_item:
+                this.configureAndShowFragment("sports");
+                break;
+
+            case R.id.menu_business_item:
+                this.configureAndShowFragment("business");
+                break;
+
+            //TO DO : MostPopular, Profile, Settings
+        }
 
         return true;
     }
@@ -84,16 +110,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     //******** FRAGMENT *********
-    private void configureAndShowFragment() {
+    private void configureAndShowFragment(String category) {
 
         this.mainFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
 
-        if (this.mainFragment == null) {
-            this.mainFragment = new MainFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.frame_layout, this.mainFragment)
-                    .commit();
+        if (this.mainFragment == null || !this.mainFragment.isVisible()) {
+            this.mainFragment = MainFragment.newInstance();
+            getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, this.mainFragment).commit();
+            ((MainFragment) this.mainFragment).getArticleFromHttpRequest(category);
         }
-    }
 
+        ((MainFragment) this.mainFragment).getArticleFromHttpRequest(category);
+
+    }
 }

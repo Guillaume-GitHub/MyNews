@@ -16,10 +16,14 @@ import butterknife.ButterKnife;
 
 public class MyViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.recycler_view_image_item)ImageView articleImageView;
-    @BindView(R.id.recycler_view_category_item) TextView categoryTextView;
-    @BindView(R.id.recycler_view_date_item) TextView dateTextView;
-    @BindView(R.id.recycler_view_description_item) TextView descriptionTextView;
+    @BindView(R.id.recycler_view_image_item)
+    ImageView articleImageView;
+    @BindView(R.id.recycler_view_category_item)
+    TextView categoryTextView;
+    @BindView(R.id.recycler_view_date_item)
+    TextView dateTextView;
+    @BindView(R.id.recycler_view_description_item)
+    TextView descriptionTextView;
 
 
     public MyViewHolder(@NonNull View itemView) {
@@ -27,15 +31,19 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void updateRecyclerViewItem(TopStoriesArticle article, RequestManager glide){
-        this.updateImageView(article,glide);
+    public void clean() {
+        this.articleImageView.setBackgroundColor(itemView.getResources().getColor(R.color.colorLightGrey));
+    }
+
+    public void updateRecyclerViewItem(TopStoriesArticle article, RequestManager glide) {
+        this.updateImageView(article, glide);
         this.updateCategoryTextView(article);
         this.updateDescriptionTextView(article);
         this.updateDateTextView(article);
     }
 
 
-    private void updateImageView(TopStoriesArticle article, RequestManager glide){
+    private void updateImageView(TopStoriesArticle article, RequestManager glide) {
 
         if (article.getMultimediaCount() != 0)
             glide.load(article.getMultimedia().get(1).getUrl()).into(this.articleImageView);
@@ -43,7 +51,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
             this.articleImageView.setBackgroundColor(itemView.getResources().getColor(R.color.colorLightGrey));
     }
 
-    private void updateCategoryTextView(TopStoriesArticle article){
+    private void updateCategoryTextView(TopStoriesArticle article) {
 
         if (!article.getSubsection().isEmpty())
             this.categoryTextView.setText(article.getSection() + " > " + article.getSubsection());
@@ -51,11 +59,13 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
             this.categoryTextView.setText(article.getSection());
     }
 
-    private void updateDescriptionTextView(TopStoriesArticle article){
+    private void updateDescriptionTextView(TopStoriesArticle article) {
+        assert article.getTitle() != null;
         this.descriptionTextView.setText(article.getTitle());
     }
 
-    public void updateDateTextView(TopStoriesArticle article){
+    private void updateDateTextView(TopStoriesArticle article) {
         this.dateTextView.setText(article.getPublishedDate());
     }
+
 }

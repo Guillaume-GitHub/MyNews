@@ -15,8 +15,7 @@ import com.bumptech.glide.RequestManager;
 import java.util.List;
 
 
-
-public class RecyclerViewAdapter extends RecyclerView.Adapter<MyViewHolder>{
+public class RecyclerViewAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     private List<TopStoriesArticle> articles;
     private RequestManager glide;
@@ -30,8 +29,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<MyViewHolder>{
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         Context context = viewGroup.getContext();
-        LayoutInflater inflater =  LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.recycler_view_item,viewGroup,false);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.recycler_view_item, viewGroup, false);
         return new MyViewHolder(view);
     }
 
@@ -46,8 +45,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<MyViewHolder>{
         return articles.size();
     }
 
-    public TopStoriesArticle getArticle(int position){
+    public TopStoriesArticle getArticle(int position) {
         return articles.get(position);
     }
 
+
+    @Override
+    public void onViewRecycled(@NonNull MyViewHolder holder) {
+        holder.clean();
+    }
 }

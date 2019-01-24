@@ -15,7 +15,8 @@ import butterknife.ButterKnife;
 
 public class DetailActivity extends AppCompatActivity {
 
-    @BindView(R.id.detail_toolbar) Toolbar toolbar;
+    @BindView(R.id.detail_toolbar)
+    Toolbar toolbar;
 
     private Fragment detailFragment;
 
@@ -32,9 +33,10 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
-    private void configureToolBar(){
+    private void configureToolBar() {
         setSupportActionBar(this.toolbar);
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
@@ -42,11 +44,11 @@ public class DetailActivity extends AppCompatActivity {
 
         this.detailFragment = getSupportFragmentManager().findFragmentById(R.id.detail_activity_framelayout);
 
-            Bundle bundle = new Bundle();
-            bundle.putString("URL_KEY",getIntent().getStringExtra(MainFragment.EXTRA_URL));
+        Bundle bundle = new Bundle();
+        bundle.putString("URL_KEY", getIntent().getStringExtra(MainFragment.EXTRA_URL));
 
 
-        if (this.detailFragment == null) {
+        if (this.detailFragment == null || !this.detailFragment.isVisible()) {
 
             this.detailFragment = new DetailFragment();
             this.detailFragment.setArguments(bundle);

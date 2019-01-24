@@ -46,7 +46,7 @@
                 android:layout_weight="1"
                 android:gravity="end"
                 tools:text="01/01/2019"
-                android:maxLength="10"/>
+                android:maxLength="10" />
 
         </LinearLayout>
 

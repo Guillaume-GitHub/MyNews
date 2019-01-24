@@ -8,7 +8,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class TopStoriesArticleAdapter{
+public class TopStoriesArticleAdapter {
 
 
     static final String BASE = "https://api.nytimes.com/svc/topstories/v2/";
