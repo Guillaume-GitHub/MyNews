@@ -194,12 +194,12 @@ public class TopStoriesArticle {
         return multimedia;
     }
 
-    public int getMultimediaCount() {
-        return multimedia.size();
-    }
-
     public void setMultimedia(List<TopStoriesMedia> multimedia) {
         this.multimedia = multimedia;
+    }
+
+    public int getMultimediaCount() {
+        return multimedia.size();
     }
 
     public String getShortUrl() {

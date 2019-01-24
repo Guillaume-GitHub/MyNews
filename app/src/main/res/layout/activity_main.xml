@@ -21,7 +21,8 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:navigationIcon="@drawable/round_menu_white_18dp" />
+            app:navigationIcon="@drawable/round_menu_white_18dp"
+            app:titleTextColor="@android:color/white"/>
 
         <FrameLayout
             android:id="@+id/frame_layout"
