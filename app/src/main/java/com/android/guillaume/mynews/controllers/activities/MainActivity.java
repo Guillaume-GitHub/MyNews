@@ -3,8 +3,9 @@ package com.android.guillaume.mynews.controllers.activities;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.android.guillaume.mynews.R;
-import com.android.guillaume.mynews.controllers.fragments.MainFragment;
+import com.android.guillaume.mynews.utils.ViewPagerAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,21 +27,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
-
-    private Fragment mainFragment;
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("MainActivity", "onCreate: ");
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
-
         this.configureToolBar();
         this.configureNavigationView();
-        this.configureAndShowFragment("home");
-
+        this.configureViewPager();
     }
 
     @Override
@@ -55,22 +56,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (menuItem.getItemId()) {
             case R.id.menu_home_item:
-                this.configureAndShowFragment("home");
+                //this.configureAndShowFragment("home");
+                viewPager.setCurrentItem(0,true);
                 break;
 
             case R.id.menu_health_item:
-                this.configureAndShowFragment("health");
+                viewPager.setCurrentItem(1,true);
                 break;
 
             case R.id.menu_sports_item:
-                this.configureAndShowFragment("sports");
+                viewPager.setCurrentItem(2,true);
                 break;
 
             case R.id.menu_business_item:
-                this.configureAndShowFragment("business");
+                viewPager.setCurrentItem(3,true);
                 break;
 
-            //TO DO : MostPopular, Profile, Settings
+            //TODO: MostPopular, Profile, Settings
         }
 
         return true;
@@ -108,19 +110,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private void configureViewPager(){
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
+        tabLayout.setupWithViewPager(viewPager);
+    }
 
-    //******** FRAGMENT *********
-    private void configureAndShowFragment(String category) {
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("MainActivity", "onStart: ");
+    }
 
-        this.mainFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("MainActivity", "onResume: ");
+      //  this.configureAndShowFragment("home");
+    }
 
-        if (this.mainFragment == null || !this.mainFragment.isVisible()) {
-            this.mainFragment = MainFragment.newInstance();
-            getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, this.mainFragment).commit();
-            ((MainFragment) this.mainFragment).getArticleFromHttpRequest(category);
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("MainActivity", "onDestroy: ");
+    }
 
-        ((MainFragment) this.mainFragment).getArticleFromHttpRequest(category);
-
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("MainActivity", "onRestart: ");
     }
 }

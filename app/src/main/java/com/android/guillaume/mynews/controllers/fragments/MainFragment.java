@@ -47,20 +47,21 @@ public class MainFragment extends Fragment implements Callback<TopStoriesResult>
         // Required empty public constructor
     }
 
-    public static MainFragment newInstance() {
+    public static MainFragment newInstance(String category) {
 
         MainFragment fragment = new MainFragment();
+        fragment.getArticleFromHttpRequest(category);
         return fragment;
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
-        ButterKnife.bind(this, view);
-        this.configureRecyclerView();
-        this.addClickToRecyclerViewItem();
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d("Mainfragment", "onCreate: ");
+            // Inflate the layout for this fragment
+            View view = inflater.inflate(R.layout.fragment_main, container, false);
+            ButterKnife.bind(this, view);
+            this.configureRecyclerView();
+            this.addClickToRecyclerViewItem();
         return view;
     }
 
@@ -134,8 +135,26 @@ public class MainFragment extends Fragment implements Callback<TopStoriesResult>
     }
 
     private void startDetailActivity(String url) {
-        Intent intent = new Intent(getContext(), DetailActivity.class);
+        Intent intent = new Intent(this.getContext(), DetailActivity.class);
         intent.putExtra(EXTRA_URL, url);
         startActivity(intent);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("Mainfragment", "onStart: ");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("Mainfragment", "onResume: ");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("Mainfragment", "onDestroy: ");
     }
 }
