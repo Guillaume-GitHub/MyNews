@@ -5,6 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.android.guillaume.mynews.R;
 import com.android.guillaume.mynews.controllers.fragments.DetailFragment;
@@ -40,13 +44,24 @@ public class DetailActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void configureAndShowFragment() {
 
         this.detailFragment = getSupportFragmentManager().findFragmentById(R.id.detail_activity_framelayout);
 
+        //Get Url from Bundle
         Bundle bundle = new Bundle();
         bundle.putString("URL_KEY", getIntent().getStringExtra(MainFragment.EXTRA_URL));
-
 
         if (this.detailFragment == null || !this.detailFragment.isVisible()) {
 

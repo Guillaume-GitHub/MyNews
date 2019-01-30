@@ -48,10 +48,4 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<MyViewHolder> {
     public TopStoriesArticle getArticle(int position) {
         return articles.get(position);
     }
-
-
-    @Override
-    public void onViewRecycled(@NonNull MyViewHolder holder) {
-        holder.clean();
-    }
 }

@@ -31,10 +31,6 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void clean() {
-        this.articleImageView.setBackgroundColor(itemView.getResources().getColor(R.color.colorLightGrey));
-    }
-
     public void updateRecyclerViewItem(TopStoriesArticle article, RequestManager glide) {
         this.updateImageView(article, glide);
         this.updateCategoryTextView(article);

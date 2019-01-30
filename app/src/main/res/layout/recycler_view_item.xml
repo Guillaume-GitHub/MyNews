@@ -36,7 +36,7 @@
                 android:maxLines="1"
                 tools:text="Category"
                 android:textStyle="bold"
-                android:textSize="17sp"
+                android:textSize="14sp"
                 android:textColor="@color/colorBlack"/>
 
             <TextView
@@ -60,7 +60,7 @@
                android:id="@+id/recycler_view_description_item"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
-               android:textSize="20sp"
+               android:textSize="16sp"
                 android:maxLines="2"
                tools:text="This is a description of an article of New-York Times." />
 
