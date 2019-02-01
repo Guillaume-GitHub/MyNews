@@ -2,13 +2,16 @@ package com.android.guillaume.mynews.views;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.guillaume.mynews.R;
+import com.android.guillaume.mynews.models.MostPopularArticle;
 import com.android.guillaume.mynews.models.TopStoriesArticle;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.RequestOptions;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,4 +67,10 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         this.dateTextView.setText(article.getPublishedDate());
     }
 
+    public void updateMostPopularView(MostPopularArticle mostPopularArticle, RequestManager glide) {
+        glide.load(mostPopularArticle.getMedia().get(0).getMediaMetadata().get(2).getUrl()).apply(RequestOptions.centerCropTransform()).into(this.articleImageView);
+        this.descriptionTextView.setText(mostPopularArticle.getTitle());
+        this.categoryTextView.setText(mostPopularArticle.getSection());
+        this.dateTextView.setText(mostPopularArticle.getPublishedDate());
+    }
 }
