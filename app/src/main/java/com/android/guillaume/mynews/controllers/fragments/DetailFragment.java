@@ -39,7 +39,6 @@ public class DetailFragment extends Fragment {
 
         assert getArguments() != null;
         String url = getArguments().getString("URL_KEY");
-
         this.webView.loadUrl(url);
     }
 }

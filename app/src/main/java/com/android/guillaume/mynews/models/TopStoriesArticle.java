@@ -141,7 +141,6 @@ public class TopStoriesArticle {
     public void setPublishedDate(String publishedDate) {
         this.publishedDate = publishedDate;
     }
-
     public String getMaterialTypeFacet() {
         return materialTypeFacet;
     }
@@ -189,7 +188,6 @@ public class TopStoriesArticle {
     public void setGeoFacet(List<String> geoFacet) {
         this.geoFacet = geoFacet;
     }
-
     public List<TopStoriesMedia> getMultimedia() {
         return multimedia;
     }

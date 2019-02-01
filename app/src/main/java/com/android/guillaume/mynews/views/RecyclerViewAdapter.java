@@ -17,12 +17,13 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
-    private List<TopStoriesArticle> articles;
+
+    private List<TopStoriesArticle> topStoriesArticles;
     private RequestManager glide;
 
-    public RecyclerViewAdapter(List<TopStoriesArticle> articles, RequestManager glide) {
-        this.articles = articles;
-        this.glide = glide;
+    public RecyclerViewAdapter(List<TopStoriesArticle> articleList, RequestManager glide) {
+            this.topStoriesArticles = articleList;
+            this.glide = glide;
     }
 
     @NonNull
@@ -36,16 +37,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
-        myViewHolder.updateRecyclerViewItem(this.articles.get(position), this.glide);
+        myViewHolder.updateRecyclerViewItem(this.topStoriesArticles.get(position), this.glide);
     }
 
     @Override
     public int getItemCount() {
-        Log.d("TAG", "getItemCount: " + String.valueOf(articles.size()));
-        return articles.size();
+        return topStoriesArticles.size();
     }
 
-    public TopStoriesArticle getArticle(int position) {
-        return articles.get(position);
+    public TopStoriesArticle getTopStoriesArticle(int position) {
+      return topStoriesArticles.get(position);
     }
 }
