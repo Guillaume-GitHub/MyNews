@@ -14,7 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.android.guillaume.mynews.R;
-import com.android.guillaume.mynews.utils.ViewPagerAdapter;
+import com.android.guillaume.mynews.views.ViewPagerAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,23 +56,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (menuItem.getItemId()) {
             case R.id.menu_home_item:
-                //this.configureAndShowFragment("home");
                 viewPager.setCurrentItem(0,true);
                 break;
 
-            case R.id.menu_health_item:
-                viewPager.setCurrentItem(1,true);
+            case R.id.menu_most_popular_item:
+                this.viewPager.setCurrentItem(1,true);
                 break;
 
-            case R.id.menu_sports_item:
+            case R.id.menu_health_item:
                 viewPager.setCurrentItem(2,true);
                 break;
 
-            case R.id.menu_business_item:
+            case R.id.menu_sports_item:
                 viewPager.setCurrentItem(3,true);
                 break;
 
-            //TODO: MostPopular, Profile, Settings
+            case R.id.menu_business_item:
+                viewPager.setCurrentItem(4,true);
+                break;
+
+            //TODO: Profile, Settings
         }
 
         return true;
@@ -99,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
     //******** CONFIGURATION **********
     private void configureToolBar() {
         setSupportActionBar(toolbar);
@@ -113,32 +115,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void configureViewPager(){
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(4);
         tabLayout.setupWithViewPager(viewPager);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d("MainActivity", "onStart: ");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("MainActivity", "onResume: ");
-      //  this.configureAndShowFragment("home");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d("MainActivity", "onDestroy: ");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d("MainActivity", "onRestart: ");
     }
 }

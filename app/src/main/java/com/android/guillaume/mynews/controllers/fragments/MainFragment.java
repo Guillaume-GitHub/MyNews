@@ -1,6 +1,7 @@
 package com.android.guillaume.mynews.controllers.fragments;
 
 
+import android.arch.lifecycle.ViewModelStoreOwner;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,14 +12,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.guillaume.mynews.R;
 import com.android.guillaume.mynews.controllers.activities.DetailActivity;
+import com.android.guillaume.mynews.models.MostPopularArticle;
+import com.android.guillaume.mynews.models.MostPopularResult;
 import com.android.guillaume.mynews.models.TopStoriesArticle;
 import com.android.guillaume.mynews.models.TopStoriesResult;
+import com.android.guillaume.mynews.utils.MostPopularArticleAdapter;
 import com.android.guillaume.mynews.utils.RecyclerItemClickListener;
 import com.android.guillaume.mynews.utils.TopStoriesArticleAdapter;
 import com.android.guillaume.mynews.views.RecyclerViewAdapter;
+import com.android.guillaume.mynews.views.ViewPagerAdapter;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -34,7 +40,7 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainFragment extends Fragment implements Callback<TopStoriesResult> {
+public class MainFragment extends Fragment implements Callback<TopStoriesResult>{
 
     public static String EXTRA_URL = "EXTRA_URL";
     @BindView(R.id.recycler_view)
@@ -43,12 +49,8 @@ public class MainFragment extends Fragment implements Callback<TopStoriesResult>
     private RecyclerViewAdapter adapter;
     private List<TopStoriesArticle> articles;
 
-    public MainFragment() {
-        // Required empty public constructor
-    }
 
     public static MainFragment newInstance(String category) {
-
         MainFragment fragment = new MainFragment();
         fragment.getArticleFromHttpRequest(category);
         return fragment;
@@ -56,7 +58,6 @@ public class MainFragment extends Fragment implements Callback<TopStoriesResult>
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("Mainfragment", "onCreate: ");
             // Inflate the layout for this fragment
             View view = inflater.inflate(R.layout.fragment_main, container, false);
             ButterKnife.bind(this, view);
@@ -65,43 +66,36 @@ public class MainFragment extends Fragment implements Callback<TopStoriesResult>
         return view;
     }
 
-    /*###############################
-    #          RECYCLER_VIEW         #
-    ###############################*/
+    /************************ RECYCLERVIEW ************************/
 
     private void configureRecyclerView() {
         // use a linear layout manager
-        this.articles = new ArrayList<>();
         this.layoutManager = new LinearLayoutManager(getContext());
         this.recyclerView.setLayoutManager(layoutManager);
 
         // specify an adapter
+        this.articles = new ArrayList<>();
         this.adapter = new RecyclerViewAdapter(this.articles, Glide.with(this));
         this.recyclerView.setAdapter(this.adapter);
     }
 
     private void addClickToRecyclerViewItem() {
         recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                new RecyclerItemClickListener(this.getContext(), this.recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        TopStoriesArticle article = adapter.getArticle(position);
-                        startDetailActivity(article.getUrl());
+                        startDetailActivity(adapter.getTopStoriesArticle(position).getUrl());
                     }
 
                     @Override
                     public void onLongItemClick(View view, int position) {
-                        //TopStoriesArticle article = adapter.getArticle(position);
-                        //Toast.makeText(getContext(), article.getUrl(), Toast.LENGTH_SHORT).show();
-                        getArticleFromHttpRequest("sports");
+                        Toast.makeText(getContext(), adapter.getTopStoriesArticle(position).getUrl(), Toast.LENGTH_SHORT).show();
                     }
                 })
         );
     }
 
-    /*###############################
-    #          API REQUEST          #
-    ###############################*/
+    /*********************** API REQUEST **********************/
 
     public void getArticleFromHttpRequest(String section) {
         TopStoriesArticleAdapter articleAdapter = new TopStoriesArticleAdapter();
@@ -123,9 +117,8 @@ public class MainFragment extends Fragment implements Callback<TopStoriesResult>
     }
 
 
-    /*###############################
-    #               UI              #
-    ###############################*/
+    /************************ UI UPDATE ************************/
+
 
     private void updateUi(List<TopStoriesArticle> articleList) {
         this.articles.clear();
@@ -133,28 +126,11 @@ public class MainFragment extends Fragment implements Callback<TopStoriesResult>
         this.adapter.notifyDataSetChanged();
         Log.e("TAG", "updateUI");
     }
+    /************************* METHODS *************************/
 
     private void startDetailActivity(String url) {
         Intent intent = new Intent(this.getContext(), DetailActivity.class);
         intent.putExtra(EXTRA_URL, url);
         startActivity(intent);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.d("Mainfragment", "onStart: ");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d("Mainfragment", "onResume: ");
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d("Mainfragment", "onDestroy: ");
     }
 }
