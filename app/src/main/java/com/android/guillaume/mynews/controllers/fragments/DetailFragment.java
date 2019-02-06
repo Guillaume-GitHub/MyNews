@@ -39,6 +39,10 @@ public class DetailFragment extends Fragment {
 
         assert getArguments() != null;
         String url = getArguments().getString("URL_KEY");
-        this.webView.loadUrl(url);
+        //FIXME: show message when empty
+        assert url != null;
+        if (!url.equals("")) {
+            this.webView.loadUrl(url);
+        }
     }
 }

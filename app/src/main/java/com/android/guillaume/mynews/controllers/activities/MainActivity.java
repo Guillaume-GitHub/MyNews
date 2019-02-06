@@ -1,6 +1,9 @@
 package com.android.guillaume.mynews.controllers.activities;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -10,8 +13,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.android.guillaume.mynews.R;
 import com.android.guillaume.mynews.views.ViewPagerAdapter;
@@ -32,11 +37,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @BindView(R.id.view_pager)
     ViewPager viewPager;
 
+    ViewPagerAdapter viewPagerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("MainActivity", "onCreate: ");
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         this.configureToolBar();
@@ -112,10 +118,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void configureViewPager(){
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+    private void configureViewPager() {
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOffscreenPageLimit(4);
-        tabLayout.setupWithViewPager(viewPager);
+        viewPager.setCurrentItem(0);
     }
 }

@@ -1,14 +1,19 @@
 package com.android.guillaume.mynews.views;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
+import android.view.ViewGroup;
 
 import com.android.guillaume.mynews.controllers.fragments.MainFragment;
-import com.android.guillaume.mynews.controllers.fragments.MostPopularFragment;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
+
+    //Number of page in viewpager
+    private static int NUM_ITEMS = 5;
 
     //Array of title's Tabs
     private String[] tabsTitle = new String[]{"Top Stories","Most Popular", "Health", "Sports", "Business"};
@@ -24,14 +29,21 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         return this.tabsTitle[position];
     }
 
+    @NonNull
+    @Override
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        return super.instantiateItem(container, position);
+    }
+
     @Override
     public Fragment getItem(int position) {
+        Log.w("TAG", "getItem: ");
 
-        switch (position){
+        switch (position) {
             case 0:
                 return MainFragment.newInstance("home");
             case 1:
-                return MostPopularFragment.newInstance();
+                return MainFragment.newInstance("viewed");
             case 2:
                 return MainFragment.newInstance("health");
             case 3:
@@ -43,8 +55,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
+    //Return Total number of pages
     @Override
     public int getCount() {
-        return 5;
+        return NUM_ITEMS;
     }
 }

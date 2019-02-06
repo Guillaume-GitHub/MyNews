@@ -3,6 +3,7 @@ package com.android.guillaume.mynews.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TopStoriesResult {
@@ -24,7 +25,7 @@ public class TopStoriesResult {
     private Integer numResults;
     @SerializedName("results")
     @Expose
-    private List<TopStoriesArticle> results = null;
+    private ArrayList<TopStoriesArticle> results = null;
 
     public String getStatus() {
         return status;
@@ -66,11 +67,11 @@ public class TopStoriesResult {
         this.numResults = numResults;
     }
 
-    public List<TopStoriesArticle> getResults() {
+    public ArrayList<TopStoriesArticle> getResults() {
         return results;
     }
 
-    public void setResults(List<TopStoriesArticle> results) {
+    public void setResults(ArrayList<TopStoriesArticle> results) {
         this.results = results;
     }
 }

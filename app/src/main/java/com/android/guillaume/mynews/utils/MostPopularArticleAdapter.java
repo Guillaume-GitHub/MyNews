@@ -3,15 +3,15 @@ package com.android.guillaume.mynews.utils;
 import com.android.guillaume.mynews.models.MostPopularResult;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MostPopularArticleAdapter {
 
     static final String BASE = "https://api.nytimes.com/svc/mostpopular/v2/";
+    private Call<MostPopularResult> call;
 
-    public void getMostPopularArticleAdapter(Callback<MostPopularResult> callback, String section) {
+    public void startApiRequest(String section) {
 
         Retrofit retrofit = new Retrofit.Builder()
              .baseUrl(BASE)
@@ -19,8 +19,10 @@ public class MostPopularArticleAdapter {
              .build();
 
         MostPopularService service = retrofit.create(MostPopularService.class);
+        call = service.listArticle(section);
+    }
 
-        Call<MostPopularResult> call = service.listArticle(section);
-        call.enqueue(callback);
+    public Call<MostPopularResult> getCall() {
+        return call;
     }
 }
