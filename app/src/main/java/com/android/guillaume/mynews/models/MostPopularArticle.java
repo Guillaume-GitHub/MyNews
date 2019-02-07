@@ -1,12 +1,28 @@
 package com.android.guillaume.mynews.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 // FIXME: Uncomment for use
 
-public class MostPopularArticle {
+public class MostPopularArticle implements Parcelable {
+
+    /***************** CONSTRUCTOR ***************/
+
+    protected MostPopularArticle(Parcel in) {
+        url = in.readString();
+        section = in.readString();
+        title = in.readString();
+        publishedDate = in.readString();
+    }
+
+    public MostPopularArticle() {
+
+    }
 
     /******************  VAR  *******************/
 
@@ -29,6 +45,7 @@ public class MostPopularArticle {
     @SerializedName("media")
     @Expose
     private List<MostPopularMedia> media = null;
+
 /*
     @SerializedName("adx_keywords")
     @Expose
@@ -86,7 +103,6 @@ public class MostPopularArticle {
     @Expose
     private String uri;
 */
-
     /******************  METHODS  *******************/
 
     public String getUrl() {
@@ -127,6 +143,7 @@ public class MostPopularArticle {
     public void setMedia(List<MostPopularMedia> media) {
         this.media = media;
     }
+
 /*
     public String getAdxKeywords() {
         return adxKeywords;
@@ -240,4 +257,30 @@ public class MostPopularArticle {
         this.uri = uri;
     }
 */
+    /************************ PARCELABLE METHODS *********************/
+
+    public static final Creator<MostPopularArticle> CREATOR = new Creator<MostPopularArticle>() {
+        @Override
+        public MostPopularArticle createFromParcel(Parcel in) {
+            return new MostPopularArticle(in);
+        }
+
+        @Override
+        public MostPopularArticle[] newArray(int size) {
+            return new MostPopularArticle[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(url);
+        dest.writeString(section);
+        dest.writeString(title);
+        dest.writeString(publishedDate);
+    }
 }

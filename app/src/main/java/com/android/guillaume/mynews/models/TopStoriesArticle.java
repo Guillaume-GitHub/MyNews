@@ -1,11 +1,41 @@
 package com.android.guillaume.mynews.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class TopStoriesArticle {
+public class TopStoriesArticle implements Parcelable {
+
+    /********************* CONSTRUCTOR ******************/
+
+    protected TopStoriesArticle(Parcel in) {
+        section = in.readString();
+        subsection = in.readString();
+        title = in.readString();
+        _abstract = in.readString();
+        url = in.readString();
+        byline = in.readString();
+        itemType = in.readString();
+        updatedDate = in.readString();
+        createdDate = in.readString();
+        publishedDate = in.readString();
+        materialTypeFacet = in.readString();
+        kicker = in.readString();
+        desFacet = in.createStringArrayList();
+        orgFacet = in.createStringArrayList();
+        geoFacet = in.createStringArrayList();
+        shortUrl = in.readString();
+    }
+
+    public TopStoriesArticle() {
+
+    }
+
+    /*******************************************************/
 
     @SerializedName("section")
     @Expose
@@ -61,6 +91,8 @@ public class TopStoriesArticle {
     @SerializedName("short_url")
     @Expose
     private String shortUrl;
+
+    /************************************************************/
 
     public String getSection() {
         return section;
@@ -207,6 +239,46 @@ public class TopStoriesArticle {
     public void setShortUrl(String shortUrl) {
         this.shortUrl = shortUrl;
     }
+
+
+    /******************** PARCELABLE METHODS ********************/
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeString(section);
+        parcel.writeString(subsection);
+        parcel.writeString(title);
+        parcel.writeString(_abstract);
+        parcel.writeString(url);
+        parcel.writeString(byline);
+        parcel.writeString(itemType);
+        parcel.writeString(updatedDate);
+        parcel.writeString(createdDate);
+        parcel.writeString(publishedDate);
+        parcel.writeString(materialTypeFacet);
+        parcel.writeString(kicker);
+        parcel.writeStringList(desFacet);
+        parcel.writeStringList(orgFacet);
+        parcel.writeStringList(geoFacet);
+        parcel.writeString(shortUrl);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<TopStoriesArticle> CREATOR = new Creator<TopStoriesArticle>() {
+        @Override
+        public TopStoriesArticle createFromParcel(Parcel in) {
+            return new TopStoriesArticle(in);
+        }
+
+        @Override
+        public TopStoriesArticle[] newArray(int size) {
+            return new TopStoriesArticle[size];
+        }
+    };
 
 }
 

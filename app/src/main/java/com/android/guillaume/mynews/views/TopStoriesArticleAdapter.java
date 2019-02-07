@@ -1,6 +1,7 @@
-package com.android.guillaume.mynews.utils;
+package com.android.guillaume.mynews.views;
 
 import com.android.guillaume.mynews.models.TopStoriesResult;
+import com.android.guillaume.mynews.utils.TopStories_Service;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -11,7 +12,7 @@ public class TopStoriesArticleAdapter {
 
     static final String BASE = "https://api.nytimes.com/svc/topstories/v2/";
 
-    public void startHttpRequest(Callback<TopStoriesResult> callback, String section) {
+    public void startApiRequest(Callback<TopStoriesResult> callback, String section) {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE)

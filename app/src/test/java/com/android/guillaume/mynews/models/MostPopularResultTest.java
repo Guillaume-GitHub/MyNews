@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class MostPopularResultTest {
 
-    MostPopularResult mostPopularResult = new MostPopularResult();
+    private MostPopularResult mostPopularResult = new MostPopularResult();
 
     @Test
     public void setAndGetStatus() {
@@ -21,7 +21,7 @@ public class MostPopularResultTest {
 
     @Test
     public void setAndGetResults() {
-        List<MostPopularArticle> mostPopularArticleList = new ArrayList<>();
+        ArrayList<MostPopularArticle> mostPopularArticleList = new ArrayList<>();
         this.mostPopularResult.setResults(mostPopularArticleList);
         assertEquals(mostPopularArticleList, this.mostPopularResult.getResults());
     }

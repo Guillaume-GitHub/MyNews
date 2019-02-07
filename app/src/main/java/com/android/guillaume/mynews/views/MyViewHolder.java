@@ -2,7 +2,6 @@ package com.android.guillaume.mynews.views;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,7 +46,8 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         if (article.getMultimediaCount() != 0)
             glide.load(article.getMultimedia().get(1).getUrl()).into(this.articleImageView);
         else
-            this.articleImageView.setBackgroundColor(itemView.getResources().getColor(R.color.colorLightGrey));
+            this.articleImageView.setBackgroundColor(itemView.getResources().getColor(R.color.colorPrimary));
+            this.articleImageView.setBackground(itemView.getResources().getDrawable(R.drawable.ic_launcher_foreground));
     }
 
     private void updateCategoryTextView(TopStoriesArticle article) {

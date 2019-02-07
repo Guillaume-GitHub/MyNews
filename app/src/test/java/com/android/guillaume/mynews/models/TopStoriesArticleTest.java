@@ -97,14 +97,14 @@ public class TopStoriesArticleTest {
 
     @Test
     public void getItemType() {
-        String itemType = "article";
+        String itemType = "topStoriesArticle";
         article.setItemType(itemType);
         assertEquals(itemType, article.getItemType());
     }
 
     @Test
     public void setItemType() {
-        String itemType = "article";
+        String itemType = "topStoriesArticle";
         article.setItemType(itemType);
         assertEquals(itemType, article.getItemType());
     }

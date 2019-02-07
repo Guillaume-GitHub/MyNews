@@ -2,6 +2,8 @@ package com.android.guillaume.mynews.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 import java.util.List;
 
 // FIXME: Uncomment for use
@@ -17,7 +19,7 @@ public class MostPopularResult {
 
     @SerializedName("results")
     @Expose
-    private List<MostPopularArticle> results = null;
+    private ArrayList<MostPopularArticle> results = null;
 /*
     @SerializedName("copyright")
     @Expose
@@ -38,11 +40,11 @@ public class MostPopularResult {
         this.status = status;
     }
 
-    public List<MostPopularArticle> getResults() {
+    public ArrayList<MostPopularArticle> getResults() {
         return results;
     }
 
-    public void setResults(List<MostPopularArticle> results) {
+    public void setResults(ArrayList<MostPopularArticle> results) {
         this.results = results;
     }
 
