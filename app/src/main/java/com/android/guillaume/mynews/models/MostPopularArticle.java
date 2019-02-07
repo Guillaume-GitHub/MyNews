@@ -11,6 +11,19 @@ import java.util.List;
 
 public class MostPopularArticle implements Parcelable {
 
+    /***************** CONSTRUCTOR ***************/
+
+    protected MostPopularArticle(Parcel in) {
+        url = in.readString();
+        section = in.readString();
+        title = in.readString();
+        publishedDate = in.readString();
+    }
+
+    public MostPopularArticle() {
+
+    }
+
     /******************  VAR  *******************/
 
     @SerializedName("url")
@@ -32,6 +45,7 @@ public class MostPopularArticle implements Parcelable {
     @SerializedName("media")
     @Expose
     private List<MostPopularMedia> media = null;
+
 /*
     @SerializedName("adx_keywords")
     @Expose
@@ -244,13 +258,6 @@ public class MostPopularArticle implements Parcelable {
     }
 */
     /************************ PARCELABLE METHODS *********************/
-
-    protected MostPopularArticle(Parcel in) {
-        url = in.readString();
-        section = in.readString();
-        title = in.readString();
-        publishedDate = in.readString();
-    }
 
     public static final Creator<MostPopularArticle> CREATOR = new Creator<MostPopularArticle>() {
         @Override

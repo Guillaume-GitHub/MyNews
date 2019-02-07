@@ -10,6 +10,33 @@ import java.util.List;
 
 public class TopStoriesArticle implements Parcelable {
 
+    /********************* CONSTRUCTOR ******************/
+
+    protected TopStoriesArticle(Parcel in) {
+        section = in.readString();
+        subsection = in.readString();
+        title = in.readString();
+        _abstract = in.readString();
+        url = in.readString();
+        byline = in.readString();
+        itemType = in.readString();
+        updatedDate = in.readString();
+        createdDate = in.readString();
+        publishedDate = in.readString();
+        materialTypeFacet = in.readString();
+        kicker = in.readString();
+        desFacet = in.createStringArrayList();
+        orgFacet = in.createStringArrayList();
+        geoFacet = in.createStringArrayList();
+        shortUrl = in.readString();
+    }
+
+    public TopStoriesArticle() {
+
+    }
+
+    /*******************************************************/
+
     @SerializedName("section")
     @Expose
     private String section;
@@ -65,6 +92,7 @@ public class TopStoriesArticle implements Parcelable {
     @Expose
     private String shortUrl;
 
+    /************************************************************/
 
     public String getSection() {
         return section;
@@ -214,25 +242,6 @@ public class TopStoriesArticle implements Parcelable {
 
 
     /******************** PARCELABLE METHODS ********************/
-
-    protected TopStoriesArticle(Parcel in) {
-        section = in.readString();
-        subsection = in.readString();
-        title = in.readString();
-        _abstract = in.readString();
-        url = in.readString();
-        byline = in.readString();
-        itemType = in.readString();
-        updatedDate = in.readString();
-        createdDate = in.readString();
-        publishedDate = in.readString();
-        materialTypeFacet = in.readString();
-        kicker = in.readString();
-        desFacet = in.createStringArrayList();
-        orgFacet = in.createStringArrayList();
-        geoFacet = in.createStringArrayList();
-        shortUrl = in.readString();
-    }
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {

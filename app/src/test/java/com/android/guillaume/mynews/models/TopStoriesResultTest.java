@@ -74,14 +74,14 @@ public class TopStoriesResultTest {
 
     @Test
     public void getResults() {
-        List<TopStoriesArticle> articleList = new ArrayList<>();
+        ArrayList<TopStoriesArticle> articleList = new ArrayList<>();
         result.setResults(articleList);
         assertEquals(articleList, result.getResults());
     }
 
     @Test
     public void setResults() {
-        List<TopStoriesArticle> articleList = new ArrayList<>();
+        ArrayList<TopStoriesArticle> articleList = new ArrayList<>();
         result.setResults(articleList);
         assertEquals(articleList, result.getResults());
     }
