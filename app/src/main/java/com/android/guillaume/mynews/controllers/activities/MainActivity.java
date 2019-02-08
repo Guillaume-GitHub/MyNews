@@ -2,8 +2,6 @@ package com.android.guillaume.mynews.controllers.activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -13,12 +11,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.android.guillaume.mynews.R;
+import com.android.guillaume.mynews.utils.SearchDialog;
 import com.android.guillaume.mynews.views.ViewPagerAdapter;
 
 import butterknife.BindView;
@@ -36,8 +35,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
+    @BindView(R.id.search_button)
+    ImageButton searchButton;
 
-    ViewPagerAdapter viewPagerAdapter;
+
+    private ViewPagerAdapter viewPagerAdapter;
+    private Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureToolBar();
         this.configureNavigationView();
         this.configureViewPager();
+
+
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("TAG", "onClick: ");
+                SearchDialog.display(getSupportFragmentManager());
+            }
+        });
     }
 
     @Override
@@ -125,4 +138,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         viewPager.setOffscreenPageLimit(4);
         viewPager.setCurrentItem(0);
     }
+
 }

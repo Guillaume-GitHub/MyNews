@@ -14,13 +14,17 @@
         <activity android:name=".controllers.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".controllers.activities.DetailActivity"
             android:parentActivityName=".controllers.activities.MainActivity">
+        </activity>
+        <activity android:name=".controllers.activities.SearchableActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
         </activity>
     </application>
 
