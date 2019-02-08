@@ -1,11 +1,16 @@
 package com.android.guillaume.mynews.controllers.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.android.guillaume.mynews.R;
 import com.android.guillaume.mynews.controllers.fragments.DetailFragment;
@@ -35,10 +40,11 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void configureToolBar() {
+        //toolbar.inflateMenu(R.menu.menu_detail);
         setSupportActionBar(this.toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        //ActionBar actionBar = getSupportActionBar();
+        //assert actionBar != null;
+       // actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
