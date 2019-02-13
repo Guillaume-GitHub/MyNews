@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout android:id="@+id/search_dialog"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/result_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:navigationIcon="@drawable/ic_arrow_black_24dp">
+
     <SearchView
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="end"
         android:iconifiedByDefault="false"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:queryHint="@string/search_hint">
-    </SearchView>
+        android:queryHint="@string/search_hint"/>
+
+    </android.support.v7.widget.Toolbar>
+
+                <!--  DATE_PICKER PART -->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,21 +33,59 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp">
 
-        <EditText
-            android:id="@+id/begin_dateText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:ems="10"
-            android:inputType="date" />
-        <EditText
-            android:id="@+id/end_dateText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/datePicker_begin_date"
+                android:background="@android:color/transparent"
+                android:textColor="@color/colorLightGrey"
+                android:layout_marginBottom="10dp"
+                android:textSize="16sp"/>
+
+            <EditText
+                android:id="@+id/begin_dateText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="date"
+                android:focusable="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:ems="10"
-            android:inputType="date"/>
+            android:orientation="vertical">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/datePicker_end_date"
+                android:background="@android:color/transparent"
+                android:textColor="@color/colorLightGrey"
+                android:layout_marginBottom="10dp"
+                android:textSize="16sp"/>
+
+            <EditText
+                android:id="@+id/end_dateText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="date"
+                android:focusable="false" />
+
+        </LinearLayout>
+
     </LinearLayout>
+
+                    <!--  CHECKBOXES PART -->
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -52,25 +99,24 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:orientation="vertical">
             <CheckBox
                 android:id="@+id/checkBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CheckBox" />
+                tools:text="CheckBox" />
 
             <CheckBox
                 android:id="@+id/checkBox2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CheckBox" />
+                tools:text="CheckBox" />
 
             <CheckBox
                 android:id="@+id/checkBox3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CheckBox" />
+                tools:text="CheckBox" />
         </LinearLayout>
 
         <LinearLayout
@@ -82,21 +128,23 @@
                 android:id="@+id/checkBox4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CheckBox" />
+                tools:text="CheckBox" />
             <CheckBox
                 android:id="@+id/checkBox5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CheckBox" />
+                tools:text="CheckBox" />
 
             <CheckBox
                 android:id="@+id/checkBox6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CheckBox" />
+                tools:text="CheckBox" />
         </LinearLayout>
 
     </LinearLayout>
+
+                    <!--  SUBMIT PART -->
 
     <Button
         android:id="@+id/search_btn"
@@ -104,8 +152,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textColor="@color/colorPrimary"
-        android:text="Search"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"/>
+        android:text="@string/search_button"
+        android:layout_marginTop="20dp" />
 
 </LinearLayout>

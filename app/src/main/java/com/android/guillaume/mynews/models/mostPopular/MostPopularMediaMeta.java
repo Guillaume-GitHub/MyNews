@@ -1,9 +1,9 @@
-package com.android.guillaume.mynews.models;
+package com.android.guillaume.mynews.models.mostPopular;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MostPopularMediaMeta{
+public class MostPopularMediaMeta {
 
     /******************  VAR  *******************/
 

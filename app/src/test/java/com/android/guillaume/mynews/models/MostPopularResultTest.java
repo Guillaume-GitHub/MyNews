@@ -1,9 +1,11 @@
 package com.android.guillaume.mynews.models;
 
+import com.android.guillaume.mynews.models.mostPopular.MostPopularArticle;
+import com.android.guillaume.mynews.models.mostPopular.MostPopularResult;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.*;
 

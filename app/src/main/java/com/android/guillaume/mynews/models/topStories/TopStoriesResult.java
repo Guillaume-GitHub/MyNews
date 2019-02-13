@@ -1,10 +1,10 @@
-package com.android.guillaume.mynews.models;
+package com.android.guillaume.mynews.models.topStories;
 
+import com.android.guillaume.mynews.models.topStories.TopStoriesArticle;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TopStoriesResult {
 

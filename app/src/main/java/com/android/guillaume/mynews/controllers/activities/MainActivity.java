@@ -17,7 +17,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.android.guillaume.mynews.R;
-import com.android.guillaume.mynews.utils.SearchDialog;
+import com.android.guillaume.mynews.utils.SearchDialogAdapter;
 import com.android.guillaume.mynews.views.ViewPagerAdapter;
 
 import butterknife.BindView;
@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private ViewPagerAdapter viewPagerAdapter;
-    private Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,16 +50,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureToolBar();
         this.configureNavigationView();
         this.configureViewPager();
-
-
-
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("TAG", "onClick: ");
-                SearchDialog.display(getSupportFragmentManager());
-            }
-        });
     }
 
     @Override
@@ -125,6 +114,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void configureToolBar() {
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
+
+        // Set OnClickListener on Search Icon
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("TAG", "onClick: ");
+                SearchDialogAdapter.display(getSupportFragmentManager());
+            }
+        });
+
     }
 
     private void configureNavigationView() {
@@ -138,5 +137,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         viewPager.setOffscreenPageLimit(4);
         viewPager.setCurrentItem(0);
     }
+
+
 
 }

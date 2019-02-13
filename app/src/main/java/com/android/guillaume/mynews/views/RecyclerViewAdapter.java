@@ -3,14 +3,13 @@ package com.android.guillaume.mynews.views;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.guillaume.mynews.R;
-import com.android.guillaume.mynews.models.MostPopularArticle;
-import com.android.guillaume.mynews.models.TopStoriesArticle;
+import com.android.guillaume.mynews.models.mostPopular.MostPopularArticle;
+import com.android.guillaume.mynews.models.topStories.TopStoriesArticle;
 import com.bumptech.glide.RequestManager;
 
 import java.util.List;

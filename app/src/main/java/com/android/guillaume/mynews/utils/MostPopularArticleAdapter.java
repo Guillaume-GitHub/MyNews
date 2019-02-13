@@ -1,6 +1,6 @@
 package com.android.guillaume.mynews.utils;
 
-import com.android.guillaume.mynews.models.MostPopularResult;
+import com.android.guillaume.mynews.models.mostPopular.MostPopularResult;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -18,8 +18,8 @@ public class MostPopularArticleAdapter {
              .addConverterFactory(GsonConverterFactory.create())
              .build();
 
-        MostPopularService service = retrofit.create(MostPopularService.class);
-        call = service.listArticle(section);
+        ApiService service = retrofit.create(ApiService.class);
+        call = service.mostPopularList(section);
     }
 
     public Call<MostPopularResult> getCall() {

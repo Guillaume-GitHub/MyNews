@@ -40,11 +40,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void configureToolBar() {
-        //toolbar.inflateMenu(R.menu.menu_detail);
         setSupportActionBar(this.toolbar);
-        //ActionBar actionBar = getSupportActionBar();
-        //assert actionBar != null;
-       // actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

@@ -1,5 +1,8 @@
 package com.android.guillaume.mynews.models;
 
+import com.android.guillaume.mynews.models.mostPopular.MostPopularMedia;
+import com.android.guillaume.mynews.models.mostPopular.MostPopularMediaMeta;
+
 import org.junit.Test;
 
 import java.util.ArrayList;

@@ -1,5 +1,7 @@
 package com.android.guillaume.mynews.models;
 
+import com.android.guillaume.mynews.models.mostPopular.MostPopularMediaMeta;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;

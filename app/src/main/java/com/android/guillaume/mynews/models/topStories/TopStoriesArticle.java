@@ -1,4 +1,4 @@
-package com.android.guillaume.mynews.models;
+package com.android.guillaume.mynews.models.topStories;
 
 import android.os.Parcel;
 import android.os.Parcelable;
