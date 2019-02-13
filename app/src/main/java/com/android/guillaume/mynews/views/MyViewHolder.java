@@ -2,13 +2,15 @@ package com.android.guillaume.mynews.views;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.guillaume.mynews.R;
-import com.android.guillaume.mynews.models.MostPopularArticle;
-import com.android.guillaume.mynews.models.TopStoriesArticle;
+import com.android.guillaume.mynews.models.articleSearch.ArticleSearchArticle;
+import com.android.guillaume.mynews.models.mostPopular.MostPopularArticle;
+import com.android.guillaume.mynews.models.topStories.TopStoriesArticle;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -46,7 +48,6 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         if (article.getMultimediaCount() != 0)
             glide.load(article.getMultimedia().get(1).getUrl()).into(this.articleImageView);
         else
-            this.articleImageView.setBackgroundColor(itemView.getResources().getColor(R.color.colorPrimary));
             this.articleImageView.setBackground(itemView.getResources().getDrawable(R.drawable.ic_launcher_foreground));
     }
 
@@ -73,4 +74,21 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         this.categoryTextView.setText(mostPopularArticle.getSection());
         this.dateTextView.setText(mostPopularArticle.getPublishedDate());
     }
+
+    public void updateArticleSearchView(ArticleSearchArticle articleSearchArticle, RequestManager glide) {
+
+        String url;
+
+        if (articleSearchArticle.getMultimedia().size() != 0) {
+            url = "https://static01.nyt.com/" + articleSearchArticle.getMultimedia().get(0).getUrl();
+            glide.load(url).apply(RequestOptions.centerCropTransform()).into(this.articleImageView);
+        }else{
+            this.articleImageView.setBackground(itemView.getResources().getDrawable(R.drawable.ic_launcher_foreground));
+        }
+
+        this.descriptionTextView.setText(articleSearchArticle.getLeadParagraph());
+        this.categoryTextView.setText(articleSearchArticle.getSectionName());
+        this.dateTextView.setText(articleSearchArticle.getPubDate());
+    }
+
 }

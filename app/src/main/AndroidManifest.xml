@@ -21,7 +21,9 @@
             android:name=".controllers.activities.DetailActivity"
             android:parentActivityName=".controllers.activities.MainActivity">
         </activity>
-        <activity android:name=".controllers.activities.SearchableActivity">
+        <activity
+            android:name=".controllers.activities.ResultActivity"
+            android:parentActivityName=".controllers.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>

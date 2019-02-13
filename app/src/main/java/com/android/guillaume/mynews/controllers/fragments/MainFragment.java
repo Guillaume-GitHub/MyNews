@@ -16,13 +16,13 @@ import android.widget.Toast;
 
 import com.android.guillaume.mynews.R;
 import com.android.guillaume.mynews.controllers.activities.DetailActivity;
-import com.android.guillaume.mynews.models.MostPopularArticle;
-import com.android.guillaume.mynews.models.MostPopularResult;
-import com.android.guillaume.mynews.models.TopStoriesArticle;
-import com.android.guillaume.mynews.models.TopStoriesResult;
+import com.android.guillaume.mynews.models.mostPopular.MostPopularArticle;
+import com.android.guillaume.mynews.models.mostPopular.MostPopularResult;
+import com.android.guillaume.mynews.models.topStories.TopStoriesArticle;
+import com.android.guillaume.mynews.models.topStories.TopStoriesResult;
 import com.android.guillaume.mynews.utils.MostPopularArticleAdapter;
 import com.android.guillaume.mynews.utils.RecyclerItemClickListener;
-import com.android.guillaume.mynews.views.TopStoriesArticleAdapter;
+import com.android.guillaume.mynews.views.ArticleAdapter;
 import com.android.guillaume.mynews.views.RecyclerViewAdapter;
 import com.bumptech.glide.Glide;
 
@@ -64,16 +64,16 @@ public class MainFragment extends Fragment implements Callback<TopStoriesResult>
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null){
             // Restore Data from Sate
-            Log.d("FRAGMENT", "-------> Restore");
             this.apiSection = savedInstanceState.getString("API_NAME");
             this.listTopStories = savedInstanceState.getParcelableArrayList("TOPSTORIES_DATA");
             this.listMostPopular = savedInstanceState.getParcelableArrayList("MOSTPOPULAR_DATA");
+            Log.d("FRAGMENT", "-------> Restore " + apiSection);
 
         }else{
             // Get args From bundle
-            Log.d("FRAGMENT", "-------> onCreate ");
             assert getArguments() != null;
             this.apiSection = getArguments().getString("API_SECTION");
+            Log.d("FRAGMENT", "-------> onCreate " + apiSection);
         }
 
     }
@@ -191,8 +191,8 @@ public class MainFragment extends Fragment implements Callback<TopStoriesResult>
     /*********************** API REQUEST **********************/
 
     public void fetchTopStoriesArticles(String section) {
-        TopStoriesArticleAdapter articleAdapter = new TopStoriesArticleAdapter();
-        articleAdapter.startApiRequest(this, section);
+        ArticleAdapter articleAdapter = new ArticleAdapter();
+        articleAdapter.startTopStoriesRequest(this, section);
     }
 
     @Override

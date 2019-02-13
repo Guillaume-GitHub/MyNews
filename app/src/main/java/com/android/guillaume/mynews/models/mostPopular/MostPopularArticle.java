@@ -1,10 +1,12 @@
-package com.android.guillaume.mynews.models;
+package com.android.guillaume.mynews.models.mostPopular;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 import java.util.List;
 
 // FIXME: Uncomment for use
@@ -283,4 +285,5 @@ public class MostPopularArticle implements Parcelable {
         dest.writeString(title);
         dest.writeString(publishedDate);
     }
+
 }

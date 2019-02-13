@@ -1,65 +1,50 @@
-package com.android.guillaume.mynews.models;
+package com.android.guillaume.mynews.models.mostPopular;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class TopStoriesMedia {
+import java.util.List;
+
+public class MostPopularMedia {
+
+    /******************  VAR  *******************/
+
+    @SerializedName("media-metadata")
     @Expose
-    private String url;
-    @SerializedName("format")
-    @Expose
-    private String format;
-    @SerializedName("height")
-    @Expose
-    private Integer height;
-    @SerializedName("width")
-    @Expose
-    private Integer width;
+    private List<MostPopularMediaMeta> mediaMetadata = null;
+/*
     @SerializedName("type")
     @Expose
     private String type;
+
     @SerializedName("subtype")
     @Expose
     private String subtype;
+
     @SerializedName("caption")
     @Expose
     private String caption;
+
     @SerializedName("copyright")
     @Expose
     private String copyright;
 
-    public String getUrl() {
-        return url;
+    @SerializedName("approved_for_syndication")
+    @Expose
+    private Integer approvedForSyndication;
+*/
+
+    /******************  METHODS  *******************/
+
+    public List<MostPopularMediaMeta> getMediaMetadata() {
+        return mediaMetadata;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setMediaMetadata(List<MostPopularMediaMeta> mediaMetadata) {
+        this.mediaMetadata = mediaMetadata;
     }
 
-    public String getFormat() {
-        return format;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
-    }
-
-    public Integer getHeight() {
-        return height;
-    }
-
-    public void setHeight(Integer height) {
-        this.height = height;
-    }
-
-    public Integer getWidth() {
-        return width;
-    }
-
-    public void setWidth(Integer width) {
-        this.width = width;
-    }
-
+/*
     public String getType() {
         return type;
     }
@@ -91,4 +76,13 @@ public class TopStoriesMedia {
     public void setCopyright(String copyright) {
         this.copyright = copyright;
     }
+
+    public Integer getApprovedForSyndication() {
+        return approvedForSyndication;
+    }
+
+    public void setApprovedForSyndication(Integer approvedForSyndication) {
+        this.approvedForSyndication = approvedForSyndication;
+    }
+    */
 }
