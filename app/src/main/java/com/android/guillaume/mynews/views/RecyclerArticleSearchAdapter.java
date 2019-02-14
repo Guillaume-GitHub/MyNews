@@ -41,4 +41,8 @@ public class RecyclerArticleSearchAdapter extends RecyclerView.Adapter<MyViewHol
     public int getItemCount() {
         return this.articles.size();
     }
+
+    public ArticleSearchArticle getArticleSearchArcticle(int position) {
+        return articles.get(position);
+    }
 }

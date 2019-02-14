@@ -28,6 +28,7 @@ public class ResultActivity extends AppCompatActivity {
     private Fragment fragment;
     private String inputText;
     private List<String> filterQuery;
+    private List<String> filterDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +88,13 @@ public class ResultActivity extends AppCompatActivity {
             this.filterQuery = new ArrayList<>();
             this.filterQuery = intent.getStringArrayListExtra("EXTRA_BOXES");
         }
+
+        //Get Date values if not null
+        if (intent.getStringArrayListExtra("EXTRA_DATES") != null) {
+            this.filterDate = new ArrayList<>();
+            this.filterDate = intent.getStringArrayListExtra("EXTRA_DATES");
+            Log.d("TAG", "getExtraIntentValues: "+ this.filterDate);
+        }
     }
 
     // Build Params to set to api Request
@@ -96,25 +104,38 @@ public class ResultActivity extends AppCompatActivity {
         // the input search value param
         String query = inputText;
         // category params
-        StringBuilder categoryFilter = new StringBuilder();
-        String filterSeparator = "%20";
+        StringBuilder stringBuilder = new StringBuilder();
+        String categoryFilter;
+        String filterQueryType= "section_name";
         // Sort param
-        String sortType = "relevance";
+        String sortType = "newest";
+        //Date param
+        String beginDate = "";
+        String endDate = "";
 
         // Build filter query params
-        if(this.filterQuery.size() > 1){
-            for (String str : this.filterQuery) {
-                categoryFilter.append(str);
-                categoryFilter.append(filterSeparator);
-            }
+        for (String str : this.filterQuery) {
+            stringBuilder.append('"');
+            stringBuilder.append(str);
+            stringBuilder.append('"');
+            stringBuilder.append(" ");
         }
-        else if(!this.filterQuery.get(0).isEmpty()){
-            categoryFilter.append(this.filterQuery.get(0));
+        categoryFilter = filterQueryType + ":(" + stringBuilder.toString() +")";
+
+
+        //Get date params
+        if (this.filterDate.size() == 2) {
+            beginDate = this.filterDate.get(0);
+            Log.d("TAG", "queryBuilder: ");
+            endDate = this.filterDate.get(1);
+            Log.d("TAG", "queryBuilder: " + endDate);
         }
 
         // Add all query params in HashMap
-        map.put("q",query);
-        map.put("fq",categoryFilter.toString());
+        map.put("begin_date", beginDate);
+        map.put("end_date", endDate);
+        map.put("fq", categoryFilter);
+        map.put("q", query);
         map.put("sort", sortType);
 
         return map;
