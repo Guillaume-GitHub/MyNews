@@ -1,6 +1,7 @@
 package com.android.guillaume.mynews.controllers.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -10,10 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.guillaume.mynews.R;
+import com.android.guillaume.mynews.controllers.activities.DetailActivity;
 import com.android.guillaume.mynews.models.articleSearch.ArticleSearchArticle;
 import com.android.guillaume.mynews.models.articleSearch.ArticleSearchResult;
+import com.android.guillaume.mynews.utils.RecyclerItemClickListener;
 import com.android.guillaume.mynews.views.RecyclerArticleSearchAdapter;
 import com.android.guillaume.mynews.views.ArticleAdapter;
 import com.bumptech.glide.Glide;
@@ -21,7 +25,6 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,17 +40,15 @@ import retrofit2.Response;
 public class ResultFragment extends Fragment implements Callback<ArticleSearchResult> {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM = "param";
+    public static String EXTRA_URL = "EXTRA_URL";
 
     // TODO: Rename and change types of parameters
-    private HashMap<String, String> mParam1;
-    private String mParam2;
+    private HashMap<String, String> listParams;
 
-    //
     private List<ArticleSearchArticle> articleSearchList;
+    private RecyclerArticleSearchAdapter adapter;
 
-    //
     @BindView(R.id.recycler_view_result)
     RecyclerView recyclerView;
 
@@ -67,7 +68,8 @@ public class ResultFragment extends Fragment implements Callback<ArticleSearchRe
     public static ResultFragment newInstance(HashMap<String, String> params) {
         ResultFragment fragment = new ResultFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_PARAM1, params);
+        Log.d("TAG", "newInstance: "+params);
+        args.putSerializable(ARG_PARAM, params);
         fragment.setArguments(args);
         return fragment;
     }
@@ -77,11 +79,10 @@ public class ResultFragment extends Fragment implements Callback<ArticleSearchRe
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mParam1 = (HashMap<String, String>) getArguments().getSerializable(ARG_PARAM1);
+            listParams = (HashMap<String, String>) getArguments().getSerializable(ARG_PARAM);
             //mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        Log.d("TAG", "onCreate: " + mParam1);
     }
 
     @Override
@@ -94,7 +95,8 @@ public class ResultFragment extends Fragment implements Callback<ArticleSearchRe
         ButterKnife.bind(this,view);
 
         this.configureRecyclerView();
-        this.fetchArticleSearchArticles(mParam1);
+        this.addClickToRecyclerViewItem();
+        this.fetchArticleSearchArticles(listParams);
 
         return view;
     }
@@ -111,13 +113,31 @@ public class ResultFragment extends Fragment implements Callback<ArticleSearchRe
     private void setDataToRecyclerView(List<ArticleSearchArticle> articleList){
         Log.d("TAG", "setDataToRecyclerView: ");
         //set an adapter
-        RecyclerArticleSearchAdapter adapter = new RecyclerArticleSearchAdapter( articleList, Glide.with(this));
-        this.recyclerView.setAdapter(adapter);
+        this.adapter = new RecyclerArticleSearchAdapter( articleList, Glide.with(this));
+        this.recyclerView.setAdapter(this.adapter);
     }
 
     public void fetchArticleSearchArticles(HashMap<String, String> params) {
         ArticleAdapter searchArticleAdapter = new ArticleAdapter();
         searchArticleAdapter.startArticleSearchRequest(this, params);
+    }
+
+    private void addClickToRecyclerViewItem() {
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this.getContext(), this.recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        String url = adapter.getArticleSearchArcticle(position).getWebUrl();
+                        startDetailActivity(url);
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+                        Toast.makeText(getContext(), adapter.getArticleSearchArcticle(position).getWebUrl(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+        );
     }
 
     @Override
@@ -132,5 +152,11 @@ public class ResultFragment extends Fragment implements Callback<ArticleSearchRe
     @Override
     public void onFailure(@NonNull  Call<ArticleSearchResult> call, @NonNull  Throwable t) {
         Log.d("TAG", "onFailure: " + Log.getStackTraceString(t));
+    }
+
+    private void startDetailActivity(String url) {
+        Intent intent = new Intent(this.getContext(), DetailActivity.class);
+        intent.putExtra(EXTRA_URL, url);
+        startActivity(intent);
     }
 }
