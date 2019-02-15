@@ -3,13 +3,11 @@ package com.android.guillaume.mynews.controllers.fragments;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,11 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.SearchView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.android.guillaume.mynews.R;
 import com.android.guillaume.mynews.controllers.activities.ResultActivity;
@@ -37,7 +37,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SearchDialogFragment extends Fragment {
+public class DialogFragment extends Fragment {
     //TODO: ADD suggestion to AutoCompleteTextView
 
     @BindView(R.id.result_toolbar)
@@ -62,30 +62,50 @@ public class SearchDialogFragment extends Fragment {
     EditText beginDateText;
     @BindView(R.id.end_dateText)
     EditText endDateText;
+    @BindView(R.id.notif_button)
+    Switch switchBtn;
+
+    // To define TAG param
+    public static final String NOTIFICATION = "NOTIFICATION";
+    public static final String SEARCH_ARTICLE = "SEARCH_ARTICLE";
 
     private String[] checkBoxNames = new String[]{"Health", "Sports", "Business", "Arts", "World", "Politics"};
     private List<CheckBox> checkBoxes = new ArrayList<>();
     private CloseDialogListener closeDialog;
     private String errorMessage;
+
     //Instance of calendar
     private Calendar beginCalendar = Calendar.getInstance();
     private Calendar endCalendar = Calendar.getInstance();
 
-    public SearchDialogFragment() {
+    private View dateSection, submitSection, notifiSection;
+    private String TAG;
+
+    public DialogFragment() {
         // Required empty public constructor
     }
-    public static SearchDialogFragment newInstance() {
-        return new SearchDialogFragment();
+    public static DialogFragment newInstance(String TAG) {
+        DialogFragment dialogFragment = new DialogFragment();
+        Bundle args = new Bundle();
+        args.putString("TYPE_TAG",TAG);
+        dialogFragment.setArguments(args);
+        return dialogFragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        assert getArguments() != null;
+        this.TAG = getArguments().getString("TYPE_TAG");
+        Log.d(TAG, "onCreate: " + " ----Dialog----->  "+TAG);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = getLayoutInflater().inflate(R.layout.fragment_search_dialog,container,false);
+        this.dateSection = view.findViewById(R.id.dialog_date_section);
+        this.submitSection = view.findViewById(R.id.dialog_submit_section);
+        this.notifiSection = view.findViewById(R.id.dialog_notification_section);
         ButterKnife.bind(this,view);
         return view;
     }
@@ -93,22 +113,16 @@ public class SearchDialogFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        switch (this.TAG){
+            case SEARCH_ARTICLE:
+                this.showSearchArticleConfig();
+                break;
+            case NOTIFICATION:
+                this.showNotificationConfig();
+                break;
+            default:
 
-        // For configure item action in toolbar
-        this.configureToolbarItem();
-
-        // For Submit btn
-        this.configureSubmitBtn();
-
-        // For Checkboxes configuration
-        this.configureCheckBox();
-
-        this.configureDatePicker(beginDateText,endDateText);
-
-
-        //Define dialog event Callback
-        this.closeDialog = (CloseDialogListener) getParentFragment();
-
+        }
     }
 
     /************************ UI CONTROLS *******************/
@@ -326,5 +340,54 @@ public class SearchDialogFragment extends Fragment {
         dateValues.add(dateFormat.format(endCalendar.getTime()));
 
         return dateValues;
+    }
+
+    private void showNotificationConfig(){
+        // For configure item action in toolbar
+        this.configureToolbarItem();
+
+        // Hide DatePicker Layout
+        dateSection.setVisibility(View.GONE);
+
+        // Hide submit Button Layout
+        submitSection.setVisibility(View.GONE);
+
+        // For Checkboxes configuration
+        this.configureCheckBox();
+
+        this.switchListener();
+
+        //Define dialog event Callback
+        this.closeDialog = (CloseDialogListener) getParentFragment();
+
+    }
+
+    private void showSearchArticleConfig(){
+
+        // For configure item action in toolbar
+        this.configureToolbarItem();
+
+        // Hide Notification section
+        this.notifiSection.setVisibility(View.GONE);
+
+        // For Submit btn
+        this.configureSubmitBtn();
+
+        // For Checkboxes configuration
+        this.configureCheckBox();
+
+        this.configureDatePicker(beginDateText, endDateText);
+
+        //Define dialog event Callback
+        this.closeDialog = (CloseDialogListener) getParentFragment();
+    }
+
+    private void switchListener(){
+        this.switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Toast.makeText(getContext(), "Check", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

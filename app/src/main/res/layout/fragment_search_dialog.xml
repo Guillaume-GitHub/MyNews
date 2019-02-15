@@ -31,9 +31,10 @@
         android:background="@color/colorLightGrey"
         android:layout_marginBottom="20dp"/>
 
-                <!--  DATE_PICKER PART -->
+                <!--  DATE_PICKER SECTION -->
 
     <LinearLayout
+        android:id="@+id/dialog_date_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -93,7 +94,7 @@
 
     </LinearLayout>
 
-                    <!--  CHECKBOXES PART -->
+                    <!--  CHECKBOXES SECTION -->
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -152,16 +153,49 @@
 
     </LinearLayout>
 
-                    <!--  SUBMIT PART -->
-
-    <Button
-        android:id="@+id/search_btn"
-        android:layout_width="150dp"
+                    <!--  SUBMIT SECTION -->
+    <LinearLayout
+        android:id="@+id/dialog_submit_section"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textColor="@color/colorPrimary"
-        android:background="@color/colorAccent"
-        android:text="@string/search_button"
-        android:layout_marginTop="20dp" />
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp">
+
+        <Button
+            android:id="@+id/search_btn"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:background="@color/colorAccent"
+            android:text="@string/search_button" />
+
+    </LinearLayout>
+
+                     <!--  SUBMIT SECTION -->
+
+    <LinearLayout
+        android:id="@+id/dialog_notification_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorLightGrey"
+            android:layout_marginBottom="20dp"/>
+
+        <Switch
+            android:id="@+id/notif_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/switch_notification" />
+
+    </LinearLayout>
 
 </LinearLayout>

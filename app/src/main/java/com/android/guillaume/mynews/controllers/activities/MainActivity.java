@@ -1,6 +1,5 @@
 package com.android.guillaume.mynews.controllers.activities;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -17,7 +16,8 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.android.guillaume.mynews.R;
-import com.android.guillaume.mynews.utils.SearchDialogAdapter;
+import com.android.guillaume.mynews.controllers.fragments.DialogFragment;
+import com.android.guillaume.mynews.utils.DialogAdapter;
 import com.android.guillaume.mynews.views.ViewPagerAdapter;
 
 import butterknife.BindView;
@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ViewPager viewPager;
     @BindView(R.id.search_button)
     ImageButton searchButton;
+    @BindView(R.id.notif_button)
+    ImageButton notifButton;
 
 
     private ViewPagerAdapter viewPagerAdapter;
@@ -120,7 +122,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 Log.d("TAG", "onClick: ");
-                SearchDialogAdapter.display(getSupportFragmentManager());
+                DialogAdapter.display(getSupportFragmentManager(),DialogFragment.SEARCH_ARTICLE);
+            }
+        });
+
+        // Set OnClickListener on Notification Icon
+        notifButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("TAG", "onClick: ");
+                DialogAdapter.display(getSupportFragmentManager(),DialogFragment.NOTIFICATION);
             }
         });
 
@@ -137,7 +148,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         viewPager.setOffscreenPageLimit(4);
         viewPager.setCurrentItem(0);
     }
-
-
-
 }
