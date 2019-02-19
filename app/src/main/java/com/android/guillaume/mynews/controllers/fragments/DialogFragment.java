@@ -3,8 +3,10 @@ package com.android.guillaume.mynews.controllers.fragments;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 import com.android.guillaume.mynews.R;
 import com.android.guillaume.mynews.controllers.activities.ResultActivity;
 import com.android.guillaume.mynews.utils.CloseDialogListener;
+import com.android.guillaume.mynews.utils.NotificationJobService;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -80,10 +83,12 @@ public class DialogFragment extends Fragment {
 
     private View dateSection, submitSection, notifiSection;
     private String TAG;
+    private int switchValue;
 
     public DialogFragment() {
         // Required empty public constructor
     }
+
     public static DialogFragment newInstance(String TAG) {
         DialogFragment dialogFragment = new DialogFragment();
         Bundle args = new Bundle();
@@ -121,7 +126,6 @@ public class DialogFragment extends Fragment {
                 this.showNotificationConfig();
                 break;
             default:
-
         }
     }
 
@@ -130,7 +134,6 @@ public class DialogFragment extends Fragment {
     //Add OnClickListener on submit btn
     private void configureSubmitBtn(){
         btn.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
 
@@ -146,7 +149,6 @@ public class DialogFragment extends Fragment {
 
     // Add OnClickListener on close Toolbar btn
     private void configureToolbarItem() {
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -276,7 +278,6 @@ public class DialogFragment extends Fragment {
     private ArrayList<String> getCheckedBoxesValues(){
         ArrayList<String> result = new ArrayList<>();
 
-
         for (CheckBox box : this.checkBoxes) {
             if(box.isChecked()){
                 result.add(box.getText().toString().toLowerCase());
@@ -346,6 +347,8 @@ public class DialogFragment extends Fragment {
         // For configure item action in toolbar
         this.configureToolbarItem();
 
+        this.configureSearch();
+
         // Hide DatePicker Layout
         dateSection.setVisibility(View.GONE);
 
@@ -359,7 +362,6 @@ public class DialogFragment extends Fragment {
 
         //Define dialog event Callback
         this.closeDialog = (CloseDialogListener) getParentFragment();
-
     }
 
     private void showSearchArticleConfig(){
@@ -367,7 +369,7 @@ public class DialogFragment extends Fragment {
         // For configure item action in toolbar
         this.configureToolbarItem();
 
-        // Hide Notification section
+        // Hide NotificationBuilder section
         this.notifiSection.setVisibility(View.GONE);
 
         // For Submit btn
@@ -383,11 +385,57 @@ public class DialogFragment extends Fragment {
     }
 
     private void switchListener(){
+       final NotificationJobService jobService = new NotificationJobService(getContext());
+
         this.switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Toast.makeText(getContext(), "Check", Toast.LENGTH_SHORT).show();
+                if(isChecked) {
+                    switchValue = 1;
+                    Toast.makeText(getContext(), "Check", Toast.LENGTH_SHORT).show();
+
+                    if (searchView.getText().toString().isEmpty()){
+                        Toast.makeText(getContext(), "Please enter a keyword", Toast.LENGTH_SHORT).show();
+                        switchBtn.setChecked(false);
+                    }else{
+                        jobService.createJob(searchView.getText().toString(),checkBox.getText().toString());
+                    }
+
+                }else {
+                    switchValue = 0;
+                    jobService.cancelJob();
+                }
+                savePrefs();
             }
         });
+    }
+
+    private void savePrefs(){
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("SHARED_SEARCH", searchView.getText().toString());
+        editor.putInt("SHARED_SWITCH",switchValue);
+        editor.apply();
+    }
+
+    private void configureSearch(){
+        Log.d(TAG, "configureSearch: ");
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String str = sharedPref.getString("SHARED_SEARCH","");
+        int checked = sharedPref.getInt("SHARED_SWITCH",0);
+        this.searchView.setText(str);
+
+        switch (checked){
+            case 0:
+                this.switchBtn.setChecked(false);
+                Log.d(TAG, "configureSearch: " + checked);
+                break;
+            case 1:
+                this.switchBtn.setChecked(true);
+                Log.d(TAG, "configureSearch: " + checked);
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -44,7 +44,6 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
 
 
     private void updateImageView(TopStoriesArticle article, RequestManager glide) {
-
         if (article.getMultimediaCount() != 0)
             glide.load(article.getMultimedia().get(1).getUrl()).into(this.articleImageView);
         else

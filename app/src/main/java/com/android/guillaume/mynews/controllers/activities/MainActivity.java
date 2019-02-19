@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        // Set OnClickListener on Notification Icon
+        // Set OnClickListener on NotificationBuilder Icon
         notifButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

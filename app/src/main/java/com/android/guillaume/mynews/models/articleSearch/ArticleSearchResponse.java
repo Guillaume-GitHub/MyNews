@@ -11,6 +11,9 @@ public class ArticleSearchResponse {
     @SerializedName("docs")
     @Expose
     private List<ArticleSearchArticle> docs = null;
+    @SerializedName("meta")
+    @Expose
+    private ArticleSearchMeta meta;
 
     public List<ArticleSearchArticle> getDocs() {
         return docs;
@@ -18,5 +21,13 @@ public class ArticleSearchResponse {
 
     public void setDocs(List<ArticleSearchArticle> docs) {
         this.docs = docs;
+    }
+
+    public ArticleSearchMeta getMeta() {
+        return meta;
+    }
+
+    public void setMeta(ArticleSearchMeta meta) {
+        this.meta = meta;
     }
 }

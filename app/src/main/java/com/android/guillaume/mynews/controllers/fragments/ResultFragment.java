@@ -80,9 +80,7 @@ public class ResultFragment extends Fragment implements Callback<ArticleSearchRe
 
         if (getArguments() != null) {
             listParams = (HashMap<String, String>) getArguments().getSerializable(ARG_PARAM);
-            //mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
