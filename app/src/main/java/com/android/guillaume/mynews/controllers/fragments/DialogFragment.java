@@ -40,13 +40,13 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DialogFragment extends Fragment {
+public class DialogFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
     //TODO: ADD suggestion to AutoCompleteTextView
 
     @BindView(R.id.result_toolbar)
     Toolbar toolbar;
     @BindView(R.id.search_bar)
-    EditText searchView;
+    EditText searchInput;
     @BindView(R.id.checkBox)
     CheckBox checkBox;
     @BindView(R.id.checkBox2)
@@ -68,7 +68,7 @@ public class DialogFragment extends Fragment {
     @BindView(R.id.notif_button)
     Switch switchBtn;
 
-    // To define TAG param
+    // To define tagTypeDialog param
     public static final String NOTIFICATION = "NOTIFICATION";
     public static final String SEARCH_ARTICLE = "SEARCH_ARTICLE";
 
@@ -82,8 +82,7 @@ public class DialogFragment extends Fragment {
     private Calendar endCalendar = Calendar.getInstance();
 
     private View dateSection, submitSection, notifiSection;
-    private String TAG;
-    private int switchValue;
+    private String tagTypeDialog;
 
     public DialogFragment() {
         // Required empty public constructor
@@ -101,8 +100,8 @@ public class DialogFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         assert getArguments() != null;
-        this.TAG = getArguments().getString("TYPE_TAG");
-        Log.d(TAG, "onCreate: " + " ----Dialog----->  "+TAG);
+        this.tagTypeDialog = getArguments().getString("TYPE_TAG");
+        Log.d(tagTypeDialog, "onCreate: " + " ----Dialog----->  "+ tagTypeDialog);
     }
 
     @Override
@@ -118,7 +117,7 @@ public class DialogFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        switch (this.TAG){
+        switch (this.tagTypeDialog){
             case SEARCH_ARTICLE:
                 this.showSearchArticleConfig();
                 break;
@@ -129,7 +128,66 @@ public class DialogFragment extends Fragment {
         }
     }
 
+    private void showNotificationConfig(){
+        // For configure item action in toolbar
+        this.configureToolbarItem();
+
+        //For configure EditText
+        this.configureSearchInput();
+
+        // Hide DatePicker Layout
+        dateSection.setVisibility(View.GONE);
+
+        // Hide submit Button Layout
+        submitSection.setVisibility(View.GONE);
+
+        // For Checkboxes configuration
+        this.configureCheckBox();
+
+        this.addCheckedChangeSwitchListener();
+
+        // For switch button configuration
+        this.configureSwitchButton();
+
+        //Define dialog event Callback
+        this.closeDialog = (CloseDialogListener) getParentFragment();
+    }
+
+    private void showSearchArticleConfig(){
+
+        // For configure item action in toolbar
+        this.configureToolbarItem();
+
+        //For configure EditText
+        this.configureSearchInput();
+
+        // Hide NotificationBuilder section
+        this.notifiSection.setVisibility(View.GONE);
+
+        // For Submit btn
+        this.configureSubmitBtn();
+
+        // For Checkboxes configuration
+        this.configureCheckBox();
+
+        this.configureDatePicker(beginDateText, endDateText);
+
+        //Define dialog event Callback
+        this.closeDialog = (CloseDialogListener) getParentFragment();
+    }
+
+
     /************************ UI CONTROLS *******************/
+
+    // Add OnClickListener on close Toolbar btn
+    private void configureToolbarItem() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeDialog.buttonClicked(true);
+            }
+        });
+    }
 
     //Add OnClickListener on submit btn
     private void configureSubmitBtn(){
@@ -147,16 +205,6 @@ public class DialogFragment extends Fragment {
         });
     }
 
-    // Add OnClickListener on close Toolbar btn
-    private void configureToolbarItem() {
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                closeDialog.buttonClicked(true);
-            }
-        });
-    }
-
 
     // Configure (Date) EditText to open DatePicker
     public void configureDatePicker(final TextView beginDate, final TextView endDate){
@@ -165,7 +213,7 @@ public class DialogFragment extends Fragment {
         String myFormat ="yyyy/MM/d";
         final SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
 
-        long intervalDate = (1000*60*60*24) * 7; // = 7j
+        long intervalDate = (1000 * 60 * 60 * 24) * 14; // = 14j
         long currentDate = endCalendar.getTimeInMillis(); // the current time
 
         //Set default Value for begin Date
@@ -251,14 +299,37 @@ public class DialogFragment extends Fragment {
             i++;
         }
 
+        this.addOnCheckedListener();
+
         //Set selected checkbox
         this.setCategoryFilters();
     }
 
-    // Define checkboxes check by default
+    // Define OnCheckedChangeListener on all checkboxes
+    private void addOnCheckedListener(){
+        for (CheckBox box:checkBoxes) {
+            box.setOnCheckedChangeListener(this);
+        }
+    }
+
+    // Tick checkboxes
     private void setCategoryFilters(){
-        //Default Checkbox checked
-        checkBox.setChecked(true);
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+
+        Boolean check = sharedPref.getBoolean("checkBox_" + tagTypeDialog,true);// default checked box
+        Boolean check2 = sharedPref.getBoolean("checkBox2_" + tagTypeDialog,false);
+        Boolean check3 = sharedPref.getBoolean("checkBox3_" + tagTypeDialog,false);
+        Boolean check4 = sharedPref.getBoolean("checkBox4_" + tagTypeDialog,false);
+        Boolean check5 = sharedPref.getBoolean("checkBox5_" + tagTypeDialog,false);
+        Boolean check6 = sharedPref.getBoolean("checkBox6_" + tagTypeDialog,false);
+
+        //Apply
+        this.checkBox.setChecked(check);
+        this.checkBox2.setChecked(check2);
+        this.checkBox3.setChecked(check3);
+        this.checkBox4.setChecked(check4);
+        this.checkBox5.setChecked(check5);
+        this.checkBox6.setChecked(check6);
     }
 
     /************************ CHECK METHODS *******************/
@@ -267,7 +338,7 @@ public class DialogFragment extends Fragment {
     public void putExtraInputValues() {
         Intent intent = new Intent(getContext(), ResultActivity.class);
 
-        intent.putExtra("EXTRA_TEXT", searchView.getText().toString());
+        intent.putExtra("EXTRA_TEXT", searchInput.getText().toString());
         intent.putStringArrayListExtra("EXTRA_BOXES", getCheckedBoxesValues());
         intent.putStringArrayListExtra("EXTRA_DATES", getDateValues());
         startActivity(intent);
@@ -303,7 +374,7 @@ public class DialogFragment extends Fragment {
     // Check if filters search are good
     private Boolean isValidSearchFilter(){
 
-        if(this.searchView.getText() == null || this.searchView.getText().toString().isEmpty()) {
+        if(this.searchInput.getText() == null || this.searchInput.getText().toString().isEmpty()) {
             this.errorMessage = "Please, enter query term";
             return false;
         }else if(this.getCheckedBoxesCount() == 0) {
@@ -328,7 +399,6 @@ public class DialogFragment extends Fragment {
                         dialog.dismiss();
                     }
                 });
-
         dialog.create().show();
     }
 
@@ -343,99 +413,103 @@ public class DialogFragment extends Fragment {
         return dateValues;
     }
 
-    private void showNotificationConfig(){
-        // For configure item action in toolbar
-        this.configureToolbarItem();
 
-        this.configureSearch();
-
-        // Hide DatePicker Layout
-        dateSection.setVisibility(View.GONE);
-
-        // Hide submit Button Layout
-        submitSection.setVisibility(View.GONE);
-
-        // For Checkboxes configuration
-        this.configureCheckBox();
-
-        this.switchListener();
-
-        //Define dialog event Callback
-        this.closeDialog = (CloseDialogListener) getParentFragment();
-    }
-
-    private void showSearchArticleConfig(){
-
-        // For configure item action in toolbar
-        this.configureToolbarItem();
-
-        // Hide NotificationBuilder section
-        this.notifiSection.setVisibility(View.GONE);
-
-        // For Submit btn
-        this.configureSubmitBtn();
-
-        // For Checkboxes configuration
-        this.configureCheckBox();
-
-        this.configureDatePicker(beginDateText, endDateText);
-
-        //Define dialog event Callback
-        this.closeDialog = (CloseDialogListener) getParentFragment();
-    }
-
-    private void switchListener(){
-       final NotificationJobService jobService = new NotificationJobService(getContext());
+    private void addCheckedChangeSwitchListener(){
+        final NotificationJobService jobService = new NotificationJobService(getContext());
 
         this.switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
-                    switchValue = 1;
-                    Toast.makeText(getContext(), "Check", Toast.LENGTH_SHORT).show();
 
-                    if (searchView.getText().toString().isEmpty()){
+                    if (searchInput.getText().toString().isEmpty()){
                         Toast.makeText(getContext(), "Please enter a keyword", Toast.LENGTH_SHORT).show();
                         switchBtn.setChecked(false);
                     }else{
-                        jobService.createJob(searchView.getText().toString(),checkBox.getText().toString());
+                        jobService.createJob(searchInput.getText().toString(), getCheckedBoxesValues());
                     }
 
                 }else {
-                    switchValue = 0;
                     jobService.cancelJob();
                 }
-                savePrefs();
+                saveSearchInput();
+                saveEnableNotification();
             }
         });
     }
 
-    private void savePrefs(){
+    private void configureSearchInput(){
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String str = sharedPref.getString("SEARCH_INPUT_" + tagTypeDialog,"");
+        this.searchInput.setText(str);
+    }
+
+    private void configureSwitchButton(){
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        Boolean check = sharedPref.getBoolean("NOTIFICATION_BUTTON",false);
+        this.switchBtn.setChecked(check);
+    }
+
+    private void saveCheckBoxes(final boolean isChecked, String key) {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("SHARED_SEARCH", searchView.getText().toString());
-        editor.putInt("SHARED_SWITCH",switchValue);
+        editor.putBoolean(key, isChecked);
         editor.apply();
     }
 
-    private void configureSearch(){
-        Log.d(TAG, "configureSearch: ");
+    private void saveSearchInput() {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        String str = sharedPref.getString("SHARED_SEARCH","");
-        int checked = sharedPref.getInt("SHARED_SWITCH",0);
-        this.searchView.setText(str);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("SEARCH_INPUT_" + tagTypeDialog, searchInput.getText().toString());
+        editor.apply();
+    }
 
-        switch (checked){
-            case 0:
-                this.switchBtn.setChecked(false);
-                Log.d(TAG, "configureSearch: " + checked);
+    private void saveEnableNotification() {
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("NOTIFICATION_BUTTON", this.switchBtn.isChecked());
+        editor.apply();
+    }
+
+    // Save checkBoxes status in Shared Preferences on checked change
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+        switch (buttonView.getId()){
+            case(R.id.checkBox):
+                if(isChecked) this.saveCheckBoxes(true, "checkBox_" + tagTypeDialog);
+                else this.saveCheckBoxes(false, "checkBox_" + tagTypeDialog);
                 break;
-            case 1:
-                this.switchBtn.setChecked(true);
-                Log.d(TAG, "configureSearch: " + checked);
+            case(R.id.checkBox2):
+                if(isChecked) this.saveCheckBoxes(true, "checkBox2_" + tagTypeDialog);
+                else this.saveCheckBoxes(false, "checkBox2_" + tagTypeDialog);
                 break;
-            default:
+            case(R.id.checkBox3):
+                if(isChecked) this.saveCheckBoxes(true, "checkBox3_" + tagTypeDialog);
+                else this.saveCheckBoxes(false, "checkBox3_" + tagTypeDialog);
+                break;
+            case(R.id.checkBox4):
+                if(isChecked) this.saveCheckBoxes(true, "checkBox4_" + tagTypeDialog);
+                else this.saveCheckBoxes(false, "checkBox4_" + tagTypeDialog);
+                break;
+            case(R.id.checkBox5):
+                if(isChecked) this.saveCheckBoxes(true, "checkBox5_" + tagTypeDialog);
+                else this.saveCheckBoxes(false, "checkBox5_" + tagTypeDialog);
+                break;
+            case(R.id.checkBox6):
+                if(isChecked) this.saveCheckBoxes(true, "checkBox6_" + tagTypeDialog);
+                else this.saveCheckBoxes(false, "checkBox6_" + tagTypeDialog);
                 break;
         }
+    }
+
+    // Override jobService with lasted data
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        NotificationJobService jobService = new NotificationJobService(getContext());
+        if(switchBtn.isChecked())
+            jobService.createJob(searchInput.getText().toString(), getCheckedBoxesValues());
+
     }
 }
