@@ -8,6 +8,15 @@ import com.google.gson.annotations.SerializedName;
 
 public class ArticleSearchResult implements Parcelable {
 
+    protected ArticleSearchResult(Parcel in) {
+        status = in.readString();
+        copyright = in.readString();
+    }
+
+    public ArticleSearchResult() {
+
+    }
+
     @SerializedName("status")
     @Expose
     private String status;
@@ -17,23 +26,6 @@ public class ArticleSearchResult implements Parcelable {
     @SerializedName("response")
     @Expose
     private ArticleSearchResponse response;
-
-    protected ArticleSearchResult(Parcel in) {
-        status = in.readString();
-        copyright = in.readString();
-    }
-
-    public static final Creator<ArticleSearchResult> CREATOR = new Creator<ArticleSearchResult>() {
-        @Override
-        public ArticleSearchResult createFromParcel(Parcel in) {
-            return new ArticleSearchResult(in);
-        }
-
-        @Override
-        public ArticleSearchResult[] newArray(int size) {
-            return new ArticleSearchResult[size];
-        }
-    };
 
     public String getStatus() {
         return status;
@@ -58,6 +50,20 @@ public class ArticleSearchResult implements Parcelable {
     public void setResponse(ArticleSearchResponse response) {
         this.response = response;
     }
+
+
+
+    public static final Creator<ArticleSearchResult> CREATOR = new Creator<ArticleSearchResult>() {
+        @Override
+        public ArticleSearchResult createFromParcel(Parcel in) {
+            return new ArticleSearchResult(in);
+        }
+
+        @Override
+        public ArticleSearchResult[] newArray(int size) {
+            return new ArticleSearchResult[size];
+        }
+    };
 
     @Override
     public int describeContents() {

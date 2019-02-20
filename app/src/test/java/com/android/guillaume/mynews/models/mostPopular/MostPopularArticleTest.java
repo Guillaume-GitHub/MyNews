@@ -1,4 +1,4 @@
-package com.android.guillaume.mynews.models;
+package com.android.guillaume.mynews.models.mostPopular;
 
 import com.android.guillaume.mynews.models.mostPopular.MostPopularArticle;
 import com.android.guillaume.mynews.models.mostPopular.MostPopularMedia;
