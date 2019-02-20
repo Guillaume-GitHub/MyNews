@@ -20,35 +20,39 @@ public class NotificationBuilder {
         createNotificationChannel();
     }
 
+    // Create a Notification channel
     private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
+        // Create the NotificationChannel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "CHANNEL_TEST";
             String description = "channel description";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
+            // Register the channel with the system
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
     }
 
+    // Create and Display Notification
     public void sendNotification(ArticleSearchResult articleSearchResult) {
         int result = articleSearchResult.getResponse().getMeta().getHits();
+        String content;
+
+        if (result > 0) content = "I find " + result + " new articles, corresponding to your research";
+        else content = "No more news today ....";
+
         NotificationCompat.Builder notification  = new NotificationCompat.Builder(context,CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(context.getResources().getString(R.string.app_name))
-                .setContentText("I find " + result + " corresponding to your research" )
+                .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true);
         notification.build();
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        // notificationId is a unique int for each notification that you must define
+        // unique int for each notification
         notificationManager.notify(1, notification.build());
-
     }
 }
