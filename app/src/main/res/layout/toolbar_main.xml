@@ -26,6 +26,14 @@
         android:background="@null"
         android:layout_gravity="end"/>
 
+    <ImageButton
+        android:id="@+id/notif_button"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:src="@drawable/round_notifications_white_24"
+        android:background="@null"
+        android:layout_gravity="end"/>
 
     </android.support.v7.widget.Toolbar>
 

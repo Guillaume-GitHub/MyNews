@@ -1,4 +1,4 @@
-package com.android.guillaume.mynews.models;
+package com.android.guillaume.mynews.models.topStories;
 
 import com.android.guillaume.mynews.models.topStories.TopStoriesMedia;
 

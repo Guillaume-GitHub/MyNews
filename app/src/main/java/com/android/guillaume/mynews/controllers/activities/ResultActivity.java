@@ -97,7 +97,7 @@ public class ResultActivity extends AppCompatActivity {
         }
     }
 
-    // Build Params to set to api Request
+    // Params to set to api Request
     private HashMap<String,String> queryBuilder() {
 
         HashMap<String,String> map = new HashMap<>();
@@ -121,7 +121,6 @@ public class ResultActivity extends AppCompatActivity {
             stringBuilder.append(" ");
         }
         categoryFilter = filterQueryType + ":(" + stringBuilder.toString() +")";
-
 
         //Get date params
         if (this.filterDate.size() == 2) {

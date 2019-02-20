@@ -3,7 +3,6 @@ package com.android.guillaume.mynews.utils;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -13,30 +12,31 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.guillaume.mynews.R;
-import com.android.guillaume.mynews.controllers.fragments.SearchDialogFragment;
-
-import butterknife.ButterKnife;
+import com.android.guillaume.mynews.controllers.fragments.DialogFragment;
 
 
-public class SearchDialogAdapter extends DialogFragment implements CloseDialogListener {
+public class DialogAdapter extends android.support.v4.app.DialogFragment implements CloseDialogListener {
 
-
+    public String TAG;
     private Fragment searchDialogFrag;
 
-    public SearchDialogAdapter() {
+    public DialogAdapter() {
     }
 
-    public static final String TAG = "Dialog Search";
-
-    public static SearchDialogAdapter display(FragmentManager fragmentManager) {
-        SearchDialogAdapter dialog = new SearchDialogAdapter();
-        dialog.show(fragmentManager, TAG);
+    public static DialogAdapter display(FragmentManager fragmentManager, String TAG) {
+        DialogAdapter dialog = new DialogAdapter();
+        Bundle args = new Bundle();
+        args.putString("TYPE_DIALOG",TAG);
+        dialog.setArguments(args);
+        dialog.show(fragmentManager,TAG);
         return dialog;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        assert getArguments() != null;
+        this.TAG = getArguments().getString("TYPE_DIALOG");
     }
 
     @Override
@@ -64,7 +64,7 @@ public class SearchDialogAdapter extends DialogFragment implements CloseDialogLi
         Dialog dialog = getDialog();
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().setLayout(width, height);
             dialog.getWindow().setGravity(Gravity.TOP);
         }
@@ -73,11 +73,9 @@ public class SearchDialogAdapter extends DialogFragment implements CloseDialogLi
     //Configure fragment to Show in Dialog
     private void configureFragment() {
 
-        this.searchDialogFrag = getChildFragmentManager().findFragmentById(R.id.detail_activity_framelayout);
-
         if (this.searchDialogFrag == null || !this.searchDialogFrag.isVisible()) {
 
-            this.searchDialogFrag = SearchDialogFragment.newInstance();
+            this.searchDialogFrag = DialogFragment.newInstance(this.TAG);
             getChildFragmentManager().beginTransaction()
                     .add(R.id.dialog_framelayout, this.searchDialogFrag)
                     .commit();
