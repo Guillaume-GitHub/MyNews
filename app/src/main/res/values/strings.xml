@@ -21,9 +21,10 @@
     <string name="datePicker_end_date">End Date</string>
     <string name="search_button">Search</string>
     <string name="switch_notification">Enable notifications (once per day)</string>
+    <string name="noResult_title">Sorry, it seems that no articles correspond to your search</string>
+    <string name="noResult_subtitle">You should try with another search</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
 
 
 </resources>

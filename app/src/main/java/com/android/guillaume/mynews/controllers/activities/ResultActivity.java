@@ -2,6 +2,7 @@ package com.android.guillaume.mynews.controllers.activities;
 
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,9 +10,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.android.guillaume.mynews.R;
+import com.android.guillaume.mynews.controllers.fragments.NoResultFragment;
 import com.android.guillaume.mynews.controllers.fragments.ResultFragment;
+import com.android.guillaume.mynews.models.articleSearch.ArticleSearchArticle;
+import com.android.guillaume.mynews.models.articleSearch.ArticleSearchResult;
+import com.android.guillaume.mynews.views.ArticleAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,8 +25,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class ResultActivity extends AppCompatActivity {
+public class ResultActivity extends AppCompatActivity  implements Callback<ArticleSearchResult> {
 
     @BindView(R.id.result_toolbar)
     Toolbar toolbar;
@@ -29,6 +38,8 @@ public class ResultActivity extends AppCompatActivity {
     private String inputText;
     private List<String> filterQuery;
     private List<String> filterDate;
+    private ArticleSearchResult articleSearchResult;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +49,8 @@ public class ResultActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         this.getExtraIntentValues();
         this.configureToolBar();
-        this.configureAndShowFragment();
+        this.fetchArticleSearchArticles(queryBuilder());
+
     }
 
     /********************* UI CONTROLS ****************/
@@ -63,11 +75,21 @@ public class ResultActivity extends AppCompatActivity {
 
     private void configureAndShowFragment() {
         Log.d("TAG", "configureAndShowFragment: ");
-        this.fragment = getSupportFragmentManager().findFragmentById(R.id.result_frame_layout);
 
-        if (this.fragment == null || !this.fragment.isVisible()) {
+        if(this.articleSearchResult != null && this.articleSearchResult.getResponse().getMeta().getHits() > 0) {
 
-            this.fragment = ResultFragment.newInstance(queryBuilder());
+            //this.fragment = getSupportFragmentManager().findFragmentById(R.id.result_frame_layout);
+
+            if (this.fragment == null || !this.fragment.isVisible()) {
+
+                this.fragment = ResultFragment.newInstance(articleSearchResult);
+
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.result_activity_framelayout, this.fragment)
+                        .commit();
+            }
+        }else{
+            this.fragment = NoResultFragment.newInstance();
 
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.result_activity_framelayout, this.fragment)
@@ -138,5 +160,26 @@ public class ResultActivity extends AppCompatActivity {
         map.put("sort", sortType);
 
         return map;
+    }
+
+
+    @Override
+    public void onResponse(@NonNull Call<ArticleSearchResult> call, @NonNull Response<ArticleSearchResult> response) {
+        Log.d(this.getClass().getSimpleName(), "onResponse: " + response.code());
+        assert response.body() != null;
+        //this.articleSearchList = new ArrayList<>();
+        this.articleSearchResult = new ArticleSearchResult();
+        this.articleSearchResult = response.body();
+        this.configureAndShowFragment();
+    }
+
+    @Override
+    public void onFailure(@NonNull  Call<ArticleSearchResult> call, @NonNull  Throwable t) {
+        Log.d("TAG", "onFailure: " + Log.getStackTraceString(t));
+    }
+
+    public void fetchArticleSearchArticles(HashMap<String, String> params) {
+        ArticleAdapter searchArticleAdapter = new ArticleAdapter();
+        searchArticleAdapter.startArticleSearchRequest(this, params);
     }
 }
