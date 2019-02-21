@@ -19,7 +19,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 public class JobReceiver extends BroadcastReceiver implements Callback<ArticleSearchResult> {
 
     private String TAG = this.getClass().getSimpleName();
@@ -56,8 +55,9 @@ public class JobReceiver extends BroadcastReceiver implements Callback<ArticleSe
         articleAdapter.startArticleSearchRequest(this, params);
     }
 
-    // JOb params
+    // Build params and fetch data
     private void doingJob(Intent intent){
+
         this.query = intent.getStringExtra("QUERY");
         this.filterQuery = intent.getStringArrayListExtra("FILTER");
 

@@ -184,6 +184,13 @@ public class DialogFragment extends Fragment implements CompoundButton.OnChecked
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                saveSearchInput();
+
+                NotificationJobService jobService = new NotificationJobService(getContext());
+                if(switchBtn.isChecked())
+                    jobService.cancelJob();
+                jobService.createJob(searchInput.getText().toString(), getCheckedBoxesValues());
+
                 closeDialog.buttonClicked(true);
             }
         });
@@ -439,33 +446,33 @@ public class DialogFragment extends Fragment implements CompoundButton.OnChecked
     }
 
     private void configureSearchInput(){
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getActivity().getPreferences(0);
         String str = sharedPref.getString("SEARCH_INPUT_" + tagTypeDialog,"");
         this.searchInput.setText(str);
     }
 
     private void configureSwitchButton(){
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getActivity().getPreferences(0);
         Boolean check = sharedPref.getBoolean("NOTIFICATION_BUTTON",false);
         this.switchBtn.setChecked(check);
     }
 
     private void saveCheckBoxes(final boolean isChecked, String key) {
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getActivity().getPreferences(0);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(key, isChecked);
         editor.apply();
     }
 
     private void saveSearchInput() {
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getActivity().getPreferences(0);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("SEARCH_INPUT_" + tagTypeDialog, searchInput.getText().toString());
         editor.apply();
     }
 
     private void saveEnableNotification() {
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getActivity().getPreferences(0);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean("NOTIFICATION_BUTTON", this.switchBtn.isChecked());
         editor.apply();
@@ -505,11 +512,13 @@ public class DialogFragment extends Fragment implements CompoundButton.OnChecked
 
     // Override jobService with lasted data
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
+
+        this.saveSearchInput();
+
         NotificationJobService jobService = new NotificationJobService(getContext());
-        if(switchBtn.isChecked())
-            jobService.createJob(searchInput.getText().toString(), getCheckedBoxesValues());
+        if(switchBtn.isChecked()) jobService.createJob(searchInput.getText().toString(), getCheckedBoxesValues());
 
     }
 }
