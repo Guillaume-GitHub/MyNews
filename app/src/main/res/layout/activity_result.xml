@@ -12,8 +12,9 @@
         android:id="@+id/result_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:navigationIcon="@drawable/ic_arrow_black_24dp"/>
+        android:background="@color/colorPrimaryDark"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:navigationIcon="@drawable/round_arrow_back_24"/>
 
     <FrameLayout
         android:id="@+id/result_activity_framelayout"

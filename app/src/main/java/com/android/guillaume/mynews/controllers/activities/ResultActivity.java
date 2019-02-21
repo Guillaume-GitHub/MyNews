@@ -10,12 +10,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
 
 import com.android.guillaume.mynews.R;
 import com.android.guillaume.mynews.controllers.fragments.NoResultFragment;
 import com.android.guillaume.mynews.controllers.fragments.ResultFragment;
-import com.android.guillaume.mynews.models.articleSearch.ArticleSearchArticle;
 import com.android.guillaume.mynews.models.articleSearch.ArticleSearchResult;
 import com.android.guillaume.mynews.views.ArticleAdapter;
 
@@ -78,19 +76,17 @@ public class ResultActivity extends AppCompatActivity  implements Callback<Artic
 
         if(this.articleSearchResult != null && this.articleSearchResult.getResponse().getMeta().getHits() > 0) {
 
-            //this.fragment = getSupportFragmentManager().findFragmentById(R.id.result_frame_layout);
 
             if (this.fragment == null || !this.fragment.isVisible()) {
-
                 this.fragment = ResultFragment.newInstance(articleSearchResult);
-
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.result_activity_framelayout, this.fragment)
                         .commit();
             }
-        }else{
-            this.fragment = NoResultFragment.newInstance();
 
+        }else{
+
+            this.fragment = NoResultFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.result_activity_framelayout, this.fragment)
                     .commit();
@@ -167,7 +163,6 @@ public class ResultActivity extends AppCompatActivity  implements Callback<Artic
     public void onResponse(@NonNull Call<ArticleSearchResult> call, @NonNull Response<ArticleSearchResult> response) {
         Log.d(this.getClass().getSimpleName(), "onResponse: " + response.code());
         assert response.body() != null;
-        //this.articleSearchList = new ArrayList<>();
         this.articleSearchResult = new ArticleSearchResult();
         this.articleSearchResult = response.body();
         this.configureAndShowFragment();
@@ -178,6 +173,7 @@ public class ResultActivity extends AppCompatActivity  implements Callback<Artic
         Log.d("TAG", "onFailure: " + Log.getStackTraceString(t));
     }
 
+    // Fetch data from ArticleSearch API
     public void fetchArticleSearchArticles(HashMap<String, String> params) {
         ArticleAdapter searchArticleAdapter = new ArticleAdapter();
         searchArticleAdapter.startArticleSearchRequest(this, params);

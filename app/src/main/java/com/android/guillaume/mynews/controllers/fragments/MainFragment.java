@@ -3,9 +3,12 @@ package com.android.guillaume.mynews.controllers.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -43,6 +46,8 @@ public class MainFragment extends Fragment implements Callback<TopStoriesResult>
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+    @BindView(R.id.swipe_to_refresh)
+    SwipeRefreshLayout swipeRefresh;
 
     public static String EXTRA_URL = "EXTRA_URL";
     private RecyclerView.LayoutManager layoutManager;
@@ -50,6 +55,7 @@ public class MainFragment extends Fragment implements Callback<TopStoriesResult>
     private ArrayList<MostPopularArticle> listMostPopular;
     private ArrayList<TopStoriesArticle> listTopStories;
     private String apiSection;
+    private boolean isReadyToRefresh = true;
 
     public static MainFragment newInstance(String category) {
         MainFragment frag = new MainFragment();
@@ -96,8 +102,11 @@ public class MainFragment extends Fragment implements Callback<TopStoriesResult>
             this.fetchData();
         }
 
-        //Add
+        // Set click Listener
         this.addClickToRecyclerViewItem();
+
+        //Set SwipeToRefresh
+        this.configureSwipeToRefresh();
 
         return view;
     }
@@ -154,6 +163,7 @@ public class MainFragment extends Fragment implements Callback<TopStoriesResult>
         //set an adapter
         this.adapter = new RecyclerViewAdapter(null,articleList, Glide.with(this));
         this.recyclerView.setAdapter(this.adapter);
+        this.adapter.notifyDataSetChanged();
     }
 
     private void addClickToRecyclerViewItem() {
@@ -249,5 +259,37 @@ public class MainFragment extends Fragment implements Callback<TopStoriesResult>
         outState.putParcelableArrayList("TOPSTORIES_DATA", listTopStories);
         outState.putParcelableArrayList("MOSTPOPULAR_DATA", listMostPopular);
         outState.putString("API_NAME",apiSection);
+    }
+
+
+    private void configureSwipeToRefresh(){
+        this.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                if(!isReadyToRefresh){
+                    swipeRefresh.setRefreshing(false);
+                }else {
+                    if (listMostPopular != null) listMostPopular.clear();
+                    if (listTopStories != null) listTopStories.clear();
+                    fetchData();
+                    adapter.notifyDataSetChanged();
+                    refreshData();
+                    swipeRefresh.setRefreshing(false);
+                }
+            }
+        });
+    }
+
+    // Set a delay before refresh (skip error: 429 on API Response)
+    private void refreshData(){
+
+        this.isReadyToRefresh = false;
+
+        new Handler().postDelayed(new Runnable() {
+            @Override public void run() {
+                isReadyToRefresh = true;
+            }
+        }, 60000);
     }
 }
