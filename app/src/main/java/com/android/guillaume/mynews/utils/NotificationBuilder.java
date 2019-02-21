@@ -43,7 +43,7 @@ public class NotificationBuilder {
 
         Intent intent = new Intent(context,MainActivity.class);
         PendingIntent pi = PendingIntent.getActivity(context,0,intent,0);
-        
+
         int result = articleSearchResult.getResponse().getMeta().getHits();
         String content;
 

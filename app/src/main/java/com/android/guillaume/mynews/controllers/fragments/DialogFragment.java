@@ -445,6 +445,7 @@ public class DialogFragment extends Fragment implements CompoundButton.OnChecked
         });
     }
 
+    /************************ SHAREDPREFERENCE METHODS *******************/
     private void configureSearchInput(){
         SharedPreferences sharedPref = getActivity().getPreferences(0);
         String str = sharedPref.getString("SEARCH_INPUT_" + tagTypeDialog,"");
