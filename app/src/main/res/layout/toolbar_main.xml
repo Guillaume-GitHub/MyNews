@@ -12,10 +12,9 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:navigationIcon="@drawable/round_menu_white_24"
-        app:titleTextColor="@color/colorPrimary"
-        app:menu="@menu/menu_detail">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:navigationIcon="@drawable/round_menu_white_24">
 
     <ImageButton
         android:id="@+id/search_button"
