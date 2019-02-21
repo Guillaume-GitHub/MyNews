@@ -2,12 +2,15 @@ package com.android.guillaume.mynews.utils;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
 import com.android.guillaume.mynews.R;
+import com.android.guillaume.mynews.controllers.activities.MainActivity;
 import com.android.guillaume.mynews.models.articleSearch.ArticleSearchResult;
 
 public class NotificationBuilder {
@@ -37,10 +40,14 @@ public class NotificationBuilder {
 
     // Create and Display Notification
     public void sendNotification(ArticleSearchResult articleSearchResult) {
+
+        Intent intent = new Intent(context,MainActivity.class);
+        PendingIntent pi = PendingIntent.getActivity(context,0,intent,0);
+        
         int result = articleSearchResult.getResponse().getMeta().getHits();
         String content;
 
-        if (result > 0) content = "I find " + result + " new articles, corresponding to your research";
+        if (result > 0) content = "I find " + result + " new article(s), corresponding to your research";
         else content = "No more news today ....";
 
         NotificationCompat.Builder notification  = new NotificationCompat.Builder(context,CHANNEL_ID)
@@ -48,7 +55,9 @@ public class NotificationBuilder {
                 .setContentTitle(context.getResources().getString(R.string.app_name))
                 .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pi)
                 .setAutoCancel(true);
+
         notification.build();
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
