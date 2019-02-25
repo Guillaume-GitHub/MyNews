@@ -1,6 +1,7 @@
-package com.android.guillaume.mynews.utils;
+package com.android.guillaume.mynews.adapter;
 
 import com.android.guillaume.mynews.models.mostPopular.MostPopularResult;
+import com.android.guillaume.mynews.utils.ApiService;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;

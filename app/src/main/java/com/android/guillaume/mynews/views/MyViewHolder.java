@@ -47,7 +47,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         if (article.getMultimediaCount() != 0)
             glide.load(article.getMultimedia().get(1).getUrl()).into(this.articleImageView);
         else
-            this.articleImageView.setBackground(itemView.getResources().getDrawable(R.drawable.ic_launcher_foreground));
+            this.articleImageView.setBackground(itemView.getResources().getDrawable(R.drawable.brand_logo));
     }
 
     private void updateCategoryTextView(TopStoriesArticle article) {
@@ -82,7 +82,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
             url = "https://static01.nyt.com/" + articleSearchArticle.getMultimedia().get(0).getUrl();
             glide.load(url).apply(RequestOptions.centerCropTransform()).into(this.articleImageView);
         }else{
-            this.articleImageView.setBackground(itemView.getResources().getDrawable(R.drawable.ic_launcher_foreground));
+            this.articleImageView.setBackground(itemView.getResources().getDrawable(R.drawable.brand_logo));
         }
 
         this.descriptionTextView.setText(articleSearchArticle.getLeadParagraph());

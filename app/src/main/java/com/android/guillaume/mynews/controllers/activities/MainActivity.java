@@ -18,7 +18,7 @@ import android.widget.ImageButton;
 
 import com.android.guillaume.mynews.R;
 import com.android.guillaume.mynews.controllers.fragments.DialogFragment;
-import com.android.guillaume.mynews.utils.DialogAdapter;
+import com.android.guillaume.mynews.adapter.DialogAdapter;
 import com.android.guillaume.mynews.views.ViewPagerAdapter;
 
 import butterknife.BindView;
@@ -57,16 +57,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        // set item as selected to persist highlight
-        menuItem.setChecked(true);
+        Log.d("TAG", "onNavigationItemSelected: " + String.valueOf(menuItem.getItemId()));
         // close drawer when item is tapped
         this.drawerLayout.closeDrawer(GravityCompat.START);
-
-        // Add code here to update the UI based on the item selected
-        Log.d("TAG", "onNavigationItemSelected: " + String.valueOf(menuItem.getItemId()));
-
         switch (menuItem.getItemId()) {
-            case R.id.menu_home_item:
+            case R.id.menu_topstories_item:
                 viewPager.setCurrentItem(0,true);
                 break;
 
@@ -84,11 +79,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.menu_business_item:
                 viewPager.setCurrentItem(4,true);
+                navigationView.setCheckedItem(R.id.menu_business_item);
                 break;
 
             //TODO: Profile, Settings
         }
-
         return true;
     }
 
@@ -122,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("TAG", "onClick: ");
                 DialogAdapter.display(getSupportFragmentManager(),DialogFragment.SEARCH_ARTICLE);
             }
         });
@@ -131,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         notifButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("TAG", "onClick: ");
                 DialogAdapter.display(getSupportFragmentManager(),DialogFragment.NOTIFICATION);
             }
         });

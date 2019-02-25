@@ -1,4 +1,4 @@
-package com.android.guillaume.mynews.utils;
+package com.android.guillaume.mynews.adapter;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.android.guillaume.mynews.R;
 import com.android.guillaume.mynews.controllers.fragments.DialogFragment;
+import com.android.guillaume.mynews.utils.CloseDialogListener;
 
 
 public class DialogAdapter extends android.support.v4.app.DialogFragment implements CloseDialogListener {

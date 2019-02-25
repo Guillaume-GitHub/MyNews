@@ -15,7 +15,7 @@ import com.android.guillaume.mynews.R;
 import com.android.guillaume.mynews.controllers.fragments.NoResultFragment;
 import com.android.guillaume.mynews.controllers.fragments.ResultFragment;
 import com.android.guillaume.mynews.models.articleSearch.ArticleSearchResult;
-import com.android.guillaume.mynews.views.ArticleAdapter;
+import com.android.guillaume.mynews.adapter.ArticleAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;

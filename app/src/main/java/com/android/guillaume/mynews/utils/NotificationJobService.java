@@ -17,23 +17,29 @@ public class NotificationJobService {
     }
 
     public void createJob(String query, ArrayList<String> filterQuery){
+        long time;
         Calendar calCurrent = Calendar.getInstance();
-
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, 11);
+        cal.set(Calendar.HOUR_OF_DAY, 18);
         cal.set(Calendar.MINUTE, 30);
-        cal.set(Calendar.SECOND, 1);
+        cal.set(Calendar.SECOND, 0);
 
         //verify if current time isn't superior to notification time
-        if(cal.before(calCurrent))
-            cal.add(Calendar.DATE,1);
+        if (calCurrent.before(cal)) {
+            // If it's not 18:30 yet, start today
+            time = cal.getTimeInMillis();
+        } else {
+            // start tomorrow
+            cal.add(Calendar.DATE, 1);
+            time = cal.getTimeInMillis();
+        }
 
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, JobReceiver.class);
         intent.putExtra("QUERY", query);
         intent.putStringArrayListExtra("FILTER",filterQuery);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, time, AlarmManager.INTERVAL_DAY, pi);
     }
 
     public void cancelJob() {
