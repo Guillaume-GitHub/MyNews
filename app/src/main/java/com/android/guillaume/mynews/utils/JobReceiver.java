@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.android.guillaume.mynews.models.articleSearch.ArticleSearchResult;
-import com.android.guillaume.mynews.views.ArticleAdapter;
+import com.android.guillaume.mynews.adapter.ArticleAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class JobReceiver extends BroadcastReceiver implements Callback<ArticleSe
     private ArrayList<String> filterQuery;
     private HashMap<String,String> map = new HashMap<>();
     private Context context;
-    private String beginDate;
+    private String date;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -78,7 +78,8 @@ public class JobReceiver extends BroadcastReceiver implements Callback<ArticleSe
         categoryFilter = filterQueryType + ":(" + stringBuilder.toString() +")";
 
         // Add all query params in HashMap
-        this.map.put("begin_date",beginDate);
+        this.map.put("begin_date", date);
+        this.map.put("end_date", date);
         this.map.put("fq", categoryFilter);
         this.map.put("q", query);
 
@@ -92,6 +93,6 @@ public class JobReceiver extends BroadcastReceiver implements Callback<ArticleSe
         String myFormat ="yyyyMMdd";
         SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
 
-        beginDate = dateFormat.format(begin.getTime());
+        this.date = dateFormat.format(begin.getTime());
     }
 }

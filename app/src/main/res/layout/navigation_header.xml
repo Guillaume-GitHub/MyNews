@@ -9,11 +9,15 @@
     android:background="@color/colorPrimaryDark">
 
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/ic_launcher_foreground"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="15dp"/>
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+        android:scaleType="centerCrop"
+        android:src="@drawable/brand_logo"
+        android:visibility="visible" />
 
     <TextView
         android:layout_width="wrap_content"

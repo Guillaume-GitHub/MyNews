@@ -10,8 +10,7 @@
     <string name="menu_business_item">Business</string>
     <string name="menu_most_popular_item">Most Popular</string>
     <string name="menu_configuration_item">Configuration</string>
-    <string name="menu_profile_item">Profile</string>
-    <string name="menu_settings_item">Settings</string>
+    <string name="menu_notification_item">Notifications</string>
 
     <string name="title_activity_detail">DetailActivity</string>
     <string name="action_settings">Settings</string>

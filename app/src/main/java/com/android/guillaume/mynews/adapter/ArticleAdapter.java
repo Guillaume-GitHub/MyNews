@@ -1,4 +1,4 @@
-package com.android.guillaume.mynews.views;
+package com.android.guillaume.mynews.adapter;
 
 import android.util.Log;
 

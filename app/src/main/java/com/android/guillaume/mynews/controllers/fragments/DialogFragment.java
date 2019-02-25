@@ -401,11 +401,11 @@ public class DialogFragment extends Fragment implements CompoundButton.OnChecked
         AlertDialog.Builder  dialog = new AlertDialog.Builder(getActivity());
 
         dialog.setMessage(errorMessage).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
         dialog.create().show();
     }
 

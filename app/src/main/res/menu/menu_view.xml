@@ -1,42 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item android:title="@string/menu_top_stories_item">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/menu_home_item"
-                    android:title="@string/menu_home_item" />
-                <item
-                    android:id="@+id/menu_health_item"
-                    android:title="@string/menu_health_item" />
-                <item
-                    android:id="@+id/menu_sports_item"
-                    android:title="@string/menu_sports_item" />
-                <item
-                    android:id="@+id/menu_business_item"
-                    android:title="@string/menu_business_item" />
-                <item
-                    android:id="@+id/menu_most_popular_item"
-                    android:title="@string/menu_most_popular_item" />
-            </group>
-        </menu>
-    </item>
+    <group android:id="@+id/main_group">
+        <item
+            android:id="@+id/menu_topstories_item"
+            android:title="@string/menu_top_stories_item"
+            android:icon="@drawable/menu_topstories_icon" />
+        <item
+            android:id="@+id/menu_most_popular_item"
+            android:title="@string/menu_most_popular_item"
+            android:icon="@drawable/menu_mostpopular_icon"/>
+        <item
+            android:id="@+id/menu_health_item"
+            android:title="@string/menu_health_item"
+            android:icon="@drawable/menu_health_icon"/>
+        <item
+            android:id="@+id/menu_sports_item"
+            android:title="@string/menu_sports_item"
+            android:icon="@drawable/menu_sports_icon"/>
+        <item
+            android:id="@+id/menu_business_item"
+            android:title="@string/menu_business_item"
+            android:icon="@drawable/menu_business_icon"/>
+    </group>
 
+    <group android:id="@+id/menu_Settings_group">
 
-    <item android:title="@string/menu_configuration_item">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/activity_main_drawer_profile"
-                    android:title="@string/menu_profile_item" />
-                <item
-                    android:id="@+id/activity_main_drawer_settings"
-                    android:title="@string/menu_settings_item" />
-            </group>
-        </menu>
-    </item>
+    </group>
 </menu>
