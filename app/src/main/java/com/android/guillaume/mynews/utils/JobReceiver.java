@@ -27,13 +27,21 @@ public class JobReceiver extends BroadcastReceiver implements Callback<ArticleSe
     private HashMap<String,String> map = new HashMap<>();
     private Context context;
     private String date;
+    private boolean isReceiveBroadcast = false;
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        this.isReceiveBroadcast = true;
+
         this.context = context;
 
         // Job
         this.doingJob(intent);
+    }
+
+    public boolean receiveBroadcastStatus() {
+        return isReceiveBroadcast;
     }
 
     @Override
