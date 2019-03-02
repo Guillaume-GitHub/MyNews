@@ -21,7 +21,7 @@ public class NotificationJobService {
         Calendar calCurrent = Calendar.getInstance();
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 18);
-        cal.set(Calendar.MINUTE, 30);
+        cal.set(Calendar.MINUTE, 12);
         cal.set(Calendar.SECOND, 0);
 
         //verify if current time isn't superior to notification time

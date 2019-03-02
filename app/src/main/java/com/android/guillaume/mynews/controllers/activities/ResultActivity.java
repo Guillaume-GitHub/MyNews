@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.android.guillaume.mynews.R;
 import com.android.guillaume.mynews.controllers.fragments.NoResultFragment;
@@ -37,7 +38,6 @@ public class ResultActivity extends AppCompatActivity  implements Callback<Artic
     private List<String> filterQuery;
     private List<String> filterDate;
     private ArticleSearchResult articleSearchResult;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

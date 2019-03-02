@@ -265,7 +265,6 @@ public class MainFragment extends Fragment implements Callback<TopStoriesResult>
         this.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
                 if(!isReadyToRefresh){
                     swipeRefresh.setRefreshing(false);
                 }else {

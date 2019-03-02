@@ -3,10 +3,8 @@ package com.android.guillaume.mynews.controllers.fragments;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,6 +27,7 @@ import com.android.guillaume.mynews.R;
 import com.android.guillaume.mynews.controllers.activities.ResultActivity;
 import com.android.guillaume.mynews.utils.CloseDialogListener;
 import com.android.guillaume.mynews.utils.NotificationJobService;
+import com.android.guillaume.mynews.utils.PreferencesHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -83,6 +82,9 @@ public class DialogFragment extends Fragment implements CompoundButton.OnChecked
 
     private View dateSection, submitSection, notifiSection;
     private String tagTypeDialog;
+    private String searchInputValue;
+
+    private PreferencesHelper sharedPref;
 
     public DialogFragment() {
         // Required empty public constructor
@@ -99,9 +101,11 @@ public class DialogFragment extends Fragment implements CompoundButton.OnChecked
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        assert getArguments() != null;
-        this.tagTypeDialog = getArguments().getString("TYPE_TAG");
+        if(getArguments() != null)
+            this.tagTypeDialog = getArguments().getString("TYPE_TAG");
+
         Log.d(tagTypeDialog, "onCreate: " + " ----Dialog----->  "+ tagTypeDialog);
+        this.sharedPref = new PreferencesHelper(getContext());
     }
 
     @Override
@@ -321,14 +325,14 @@ public class DialogFragment extends Fragment implements CompoundButton.OnChecked
 
     // Tick checkboxes
     private void setCategoryFilters(){
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        //SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
 
-        Boolean check = sharedPref.getBoolean("checkBox_" + tagTypeDialog,true);// default checked box
-        Boolean check2 = sharedPref.getBoolean("checkBox2_" + tagTypeDialog,false);
-        Boolean check3 = sharedPref.getBoolean("checkBox3_" + tagTypeDialog,false);
-        Boolean check4 = sharedPref.getBoolean("checkBox4_" + tagTypeDialog,false);
-        Boolean check5 = sharedPref.getBoolean("checkBox5_" + tagTypeDialog,false);
-        Boolean check6 = sharedPref.getBoolean("checkBox6_" + tagTypeDialog,false);
+        Boolean check = sharedPref.getFromPreference("checkBox_" + tagTypeDialog,true);// default checked box
+        Boolean check2 = sharedPref.getFromPreference("checkBox2_" + tagTypeDialog,false);
+        Boolean check3 = sharedPref.getFromPreference("checkBox3_" + tagTypeDialog,false);
+        Boolean check4 = sharedPref.getFromPreference("checkBox4_" + tagTypeDialog,false);
+        Boolean check5 = sharedPref.getFromPreference("checkBox5_" + tagTypeDialog,false);
+        Boolean check6 = sharedPref.getFromPreference("checkBox6_" + tagTypeDialog,false);
 
         //Apply
         this.checkBox.setChecked(check);
@@ -447,36 +451,23 @@ public class DialogFragment extends Fragment implements CompoundButton.OnChecked
 
     /************************ SHAREDPREFERENCE METHODS *******************/
     private void configureSearchInput(){
-        SharedPreferences sharedPref = getActivity().getPreferences(0);
-        String str = sharedPref.getString("SEARCH_INPUT_" + tagTypeDialog,"");
-        this.searchInput.setText(str);
+        this.searchInput.setText(sharedPref.getFromPreference("SEARCH_INPUT_" + tagTypeDialog,""));
     }
 
     private void configureSwitchButton(){
-        SharedPreferences sharedPref = getActivity().getPreferences(0);
-        Boolean check = sharedPref.getBoolean("NOTIFICATION_BUTTON",false);
-        this.switchBtn.setChecked(check);
+        this.switchBtn.setChecked(sharedPref.getFromPreference("NOTIFICATION_BUTTON",false));
     }
 
     private void saveCheckBoxes(final boolean isChecked, String key) {
-        SharedPreferences sharedPref = getActivity().getPreferences(0);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putBoolean(key, isChecked);
-        editor.apply();
+        this.sharedPref.saveInPreference(key,isChecked);
     }
 
-    private void saveSearchInput() {
-        SharedPreferences sharedPref = getActivity().getPreferences(0);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("SEARCH_INPUT_" + tagTypeDialog, searchInput.getText().toString());
-        editor.apply();
+    public void saveSearchInput() {
+        this.sharedPref.saveInPreference("SEARCH_INPUT_" + tagTypeDialog, searchInput.getText().toString());
     }
 
     private void saveEnableNotification() {
-        SharedPreferences sharedPref = getActivity().getPreferences(0);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putBoolean("NOTIFICATION_BUTTON", this.switchBtn.isChecked());
-        editor.apply();
+        this.sharedPref.saveInPreference("NOTIFICATION_BUTTON", this.switchBtn.isChecked());
     }
 
     // Save checkBoxes status in Shared Preferences on checked change
